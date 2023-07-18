@@ -1,9 +1,7 @@
 import HomeIcon from '@mui/icons-material/Home';
-import BuildIcon from '@mui/icons-material/Build';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import CableIcon from '@mui/icons-material/Cable';
-import Brightness3Icon from '@mui/icons-material/Brightness3';
+
 import {
     Box,
     List,
@@ -14,6 +12,7 @@ import {
     Paper,
 } from '@mui/material';
 import React from 'react';
+import { Upload } from '@mui/icons-material';
 
 export default function Sidebar() {
     return (
@@ -32,17 +31,9 @@ export default function Sidebar() {
                         <ListItem disablePadding>
                             <ListItemButton component='a' href='#home'>
                                 <ListItemIcon>
-                                    <BuildIcon />
+                                    <Upload />
                                 </ListItemIcon>
-                                <ListItemText primary='Settings' />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton component='a' href='#home'>
-                                <ListItemIcon>
-                                    <CableIcon />
-                                </ListItemIcon>
-                                <ListItemText primary='Support' />
+                                <ListItemText primary='Upload image' />
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>
@@ -58,7 +49,7 @@ export default function Sidebar() {
                                 <ListItemIcon>
                                     <MeetingRoomIcon />
                                 </ListItemIcon>
-                                <ListItemText primary='Exit' />
+                                <ListItemText primary='Logout' />
                             </ListItemButton>
                         </ListItem>
                     </List>
