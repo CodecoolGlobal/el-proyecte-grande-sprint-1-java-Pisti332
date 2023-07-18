@@ -6,13 +6,18 @@ import Feed from './Components/Feed'
 import Comments from './Components/Comments'
 
 function App() {
+    
+    const showComments = (event) => {
+    console.log(event.target.id);
+    }
+    
     return (
         <>
             <TopBar />
             <Stack direction='row' spacing={2} justifyContent='space-between'>
                 <Sidebar />
-                <Feed />
-                <Comments/>
+                <Feed showComments={showComments} />
+                <Comments />
             </Stack>
         </>
     );
