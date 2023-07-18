@@ -3,12 +3,12 @@ package com.codecool.photobox_backend.sevice.daos;
 import com.codecool.photobox_backend.controller.dtos.user.NewUserDTO;
 import com.codecool.photobox_backend.controller.dtos.user.UpdateUserDTO;
 import com.codecool.photobox_backend.controller.dtos.user.UserDTO;
+import com.codecool.photobox_backend.controller.dtos.user.UserLoginDTO;
 import com.codecool.photobox_backend.sevice.daos.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserDAOTestImpl implements UserDAO {
@@ -20,7 +20,9 @@ public class UserDAOTestImpl implements UserDAO {
 
     @Override
     public void postUser(NewUserDTO newUserDTO) {
-        this.users.add(new User(newUserDTO.username(), newUserDTO.password(), newUserDTO.email()));
+        if (!checkIfUserExists(new UserLoginDTO(newUserDTO.username(), newUserDTO.password()))) {
+            this.users.add(new User(newUserDTO.username(), newUserDTO.password(), newUserDTO.email()));
+        }
     }
 
     @Override
@@ -45,5 +47,14 @@ public class UserDAOTestImpl implements UserDAO {
         List<User> filteredUsers = this.users.stream()
                 .filter(user -> user.UUIDMatch(id)).toList();
         this.users.remove(filteredUsers.get(0));
+    }
+
+    @Override
+    public boolean checkIfUserExists(UserLoginDTO userLoginDTO) {
+        List<User> matchingUsers = this.users.stream()
+                .filter(user -> user.isUsername(userLoginDTO.username()))
+                .filter(user -> user.isPassword(userLoginDTO.password()))
+                .toList();
+        return matchingUsers.size() > 0;
     }
 }

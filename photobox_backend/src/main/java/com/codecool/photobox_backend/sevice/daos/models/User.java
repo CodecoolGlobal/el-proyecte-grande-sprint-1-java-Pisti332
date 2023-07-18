@@ -35,4 +35,12 @@ public class User {
         this.email = updateUserDTO.email();
         this.lastUpdated = LocalDate.now();
     }
+
+    public boolean isUsername(String username) {
+        return this.username.equals(username);
+    }
+
+    public boolean isPassword(String password) {
+        return this.password.equals(password);
+    }
 }
