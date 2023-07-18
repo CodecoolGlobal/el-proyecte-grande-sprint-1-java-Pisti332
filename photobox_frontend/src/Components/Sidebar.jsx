@@ -1,8 +1,13 @@
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import LoginIcon from '@mui/icons-material/Login';
+import DoDisturbIcon from '@mui/icons-material/DoDisturb';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 import {
     Box,
-    Divider,
+    Button,
+    ButtonGroup,
+    FormControl,
     List,
     ListItem,
     ListItemButton,
@@ -10,6 +15,7 @@ import {
     ListItemText,
     Modal,
     Paper,
+    TextField,
     Typography,
     styled,
 } from '@mui/material';
@@ -77,19 +83,45 @@ export default function Sidebar() {
                 aria-describedby='modal-modal-description'
             >
                 <Box
-                    width={600}
-                    height={350}
+                    width={400}
+                    height={400}
                     bgcolor={'background.default'}
                     color={'text.primary'}
                     p={3}
                     borderRadius={5}
                     display='flex'
                     flexDirection='column'
-                    sx={{alignItems: 'center'}}
+                    sx={{ alignItems: 'center' }}
                 >
-                    <LinkedCamera fontSize='large'/>
-                    <Divider />
-                    <Typography variant='h5' textAlign='center' mt='10px'>Login</Typography>
+                    <LinkedCamera fontSize='large' />
+                    <Typography variant='h5' textAlign='center' mt='10px' mb='10px'>
+                        Login
+                    </Typography>
+                    <FormControl variant='standard'>
+                        <TextField
+                            id='login-username'
+                            label='Username'
+                            variant='outlined'
+                        />
+                    </FormControl>
+                    <FormControl margin='normal'>
+                        <TextField
+                            id='login-password'
+                            label='Password'
+                            variant='outlined'
+                        />
+                    </FormControl>
+                    <ButtonGroup
+                        variant='contained'
+                        aria-label='outlined primary button group'
+                        sx={{ marginTop: '10px' }}
+                    >
+                        <Button type='submit' startIcon={<LoginIcon />}>
+                            Login
+                        </Button>
+                        <Button endIcon={<DoDisturbIcon />} onClick={() => setIsLoginOpen(false)}>Cancel</Button>
+                    </ButtonGroup>
+                    <Button startIcon={<HowToRegIcon />} variant="outlined" sx={{marginTop: '30px'}}>Register</Button>
                 </Box>
             </StyledModal>
         </>
