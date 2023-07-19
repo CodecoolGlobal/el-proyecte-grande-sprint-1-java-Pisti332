@@ -4,6 +4,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import DoDisturbIcon from '@mui/icons-material/DoDisturb';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import {
+    Alert,
     Box,
     Button,
     ButtonGroup,
@@ -15,6 +16,7 @@ import {
     ListItemText,
     Modal,
     Paper,
+    Snackbar,
     TextField,
     Typography,
     styled,
@@ -29,9 +31,11 @@ const StyledModal = styled(Modal)({
     justifyContent: 'center',
 });
 
-export default function Sidebar() {
+export default function Sidebar({ setUser, user }) {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
+    const [isAlertOpen, setIsAlertOpen] = useState(false);
+    const [isSuccesboxOpen, setIsSuccesboxOpen] = useState(false);
 
     function handleRegisterUser(e) {
         e.preventDefault();
@@ -63,8 +67,24 @@ export default function Sidebar() {
             body: JSON.stringify(formJson),
         });
         const response = await request.json();
-        console.log(response);
+        if (response) {
+            setUser({ ...user, userName: formJson.username });
+            setIsLoginOpen(false);
+            setIsRegister(false);
+            setIsSuccesboxOpen(true);
+        } else {
+            setIsAlertOpen(true);
+        }
     }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setIsAlertOpen(false);
+        setIsSuccesboxOpen(false);
+    };
 
     return (
         <>
@@ -265,6 +285,32 @@ export default function Sidebar() {
                     )}
                 </Box>
             </StyledModal>
+            <Snackbar
+                open={isAlertOpen}
+                autoHideDuration={6000}
+                onClose={handleClose}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity='error'
+                    sx={{ width: '100%' }}
+                >
+                    Invalid username or password!
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                open={isSuccesboxOpen}
+                autoHideDuration={6000}
+                onClose={handleClose}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity='success'
+                    sx={{ width: '100%' }}
+                >
+                    Successful login.
+                </Alert>
+            </Snackbar>
         </>
     );
 }
