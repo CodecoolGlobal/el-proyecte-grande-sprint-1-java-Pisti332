@@ -32,6 +32,30 @@ export default function Sidebar() {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
 
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+    });
+    const sendImage = async(event) => {
+        const file = event.target.files[0];
+        const base64Image = await toBase64(file);
+        const base64Split = base64Image.split(",")[1];
+        fetch("/api/images", {
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": JSON.stringify({
+                "imageName": "test",
+                "username": "Pisti",
+                "imageData": base64Split,
+                "format": "png"
+            })
+        })
+    };
+
     return (
         <>
             <Box flex={1} p={2}>
@@ -50,11 +74,17 @@ export default function Sidebar() {
                                 </ListItemButton>
                             </ListItem>
                             <ListItem disablePadding>
-                                <ListItemButton component='a' href='#home'>
+                                <ListItemButton component='label'>
                                     <ListItemIcon>
                                         <Upload />
                                     </ListItemIcon>
                                     <ListItemText primary='Upload image' />
+                                    <input
+                                        type="file"
+                                        hidden
+                                        accept=".png,.jpeg,.jpg"
+                                        onChange={(event) => sendImage(event)}
+                                    />
                                 </ListItemButton>
                             </ListItem>
                             <ListItem disablePadding>
