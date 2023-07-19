@@ -36,6 +36,7 @@ export default function Sidebar({ setUser, user }) {
     const [isRegister, setIsRegister] = useState(false);
     const [isAlertOpen, setIsAlertOpen] = useState(false);
     const [isSuccesboxOpen, setIsSuccesboxOpen] = useState(false);
+    const [isLogoutDisabled, setIsLogoutDisabled] = useState(true);
 
     function handleRegisterUser(e) {
         e.preventDefault();
@@ -72,6 +73,7 @@ export default function Sidebar({ setUser, user }) {
             setIsLoginOpen(false);
             setIsRegister(false);
             setIsSuccesboxOpen(true);
+            setIsLogoutDisabled(false);
         } else {
             setIsAlertOpen(true);
         }
@@ -85,6 +87,12 @@ export default function Sidebar({ setUser, user }) {
         setIsAlertOpen(false);
         setIsSuccesboxOpen(false);
     };
+
+    function handleLogOut() {
+        setUser({userName: 'Please log in...'});
+        setIsSuccesboxOpen(true);
+        setIsLogoutDisabled(true);
+    }
 
     return (
         <>
@@ -120,7 +128,7 @@ export default function Sidebar({ setUser, user }) {
                                 </ListItemButton>
                             </ListItem>
                             <ListItem disablePadding>
-                                <ListItemButton component='a' href='#home'>
+                                <ListItemButton component='button' onClick={handleLogOut} disabled={isLogoutDisabled}>
                                     <ListItemIcon>
                                         <MeetingRoomIcon />
                                     </ListItemIcon>
@@ -308,7 +316,7 @@ export default function Sidebar({ setUser, user }) {
                     severity='success'
                     sx={{ width: '100%' }}
                 >
-                    Successful login.
+                    Successful action.
                 </Alert>
             </Snackbar>
         </>
