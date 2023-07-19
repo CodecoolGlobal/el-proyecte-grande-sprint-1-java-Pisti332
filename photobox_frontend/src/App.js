@@ -8,7 +8,7 @@ import Comments from './Components/Comments'
 function App() {
     
     const showComments = (event) => {
-    console.log(event.target.id);
+    console.log(event.target);
     }
     
     return (
