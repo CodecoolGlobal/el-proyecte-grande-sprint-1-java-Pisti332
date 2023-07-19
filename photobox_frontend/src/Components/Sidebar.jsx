@@ -4,6 +4,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import DoDisturbIcon from '@mui/icons-material/DoDisturb';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import {
+    Alert,
     Box,
     Button,
     ButtonGroup,
@@ -15,11 +16,13 @@ import {
     ListItemText,
     Modal,
     Paper,
+    Snackbar,
     TextField,
     Typography,
     styled,
 } from '@mui/material';
 import React, { useState } from 'react';
+import './sidebar.css';
 import { LinkedCamera, Login, Upload } from '@mui/icons-material';
 
 const StyledModal = styled(Modal)({
@@ -28,9 +31,71 @@ const StyledModal = styled(Modal)({
     justifyContent: 'center',
 });
 
-export default function Sidebar() {
+export default function Sidebar({ setUser, user }) {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
+    const [isAlertOpen, setIsAlertOpen] = useState(false);
+    const [isSuccesboxOpen, setIsSuccesboxOpen] = useState(false);
+    const [isLogoutDisabled, setIsLogoutDisabled] = useState(true);
+
+    function handleRegisterUser(e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        const formJson = Object.fromEntries(formData.entries());
+        console.log(formJson);
+        fetch('/api/auth/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formJson),
+        });
+        setIsLoginOpen(false);
+        setIsRegister(false);
+        setUser({userName: formJson.username});
+        setIsSuccesboxOpen(true);
+        setIsLogoutDisabled(false);
+    }
+
+    async function handleLoginUser(e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        const formJson = Object.fromEntries(formData.entries());
+        const request = await fetch('/api/auth/signin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formJson),
+        });
+        const response = await request.json();
+        if (response) {
+            setUser({ ...user, userName: formJson.username });
+            setIsLoginOpen(false);
+            setIsRegister(false);
+            setIsSuccesboxOpen(true);
+            setIsLogoutDisabled(false);
+        } else {
+            setIsAlertOpen(true);
+        }
+    }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setIsAlertOpen(false);
+        setIsSuccesboxOpen(false);
+    };
+
+    function handleLogOut() {
+        setUser({userName: 'Please log in...'});
+        setIsSuccesboxOpen(true);
+        setIsLogoutDisabled(true);
+    }
 
     const toBase64 = file => new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -96,7 +161,7 @@ export default function Sidebar() {
                                 </ListItemButton>
                             </ListItem>
                             <ListItem disablePadding>
-                                <ListItemButton component='a' href='#home'>
+                                <ListItemButton component='button' onClick={handleLogOut} disabled={isLogoutDisabled}>
                                     <ListItemIcon>
                                         <MeetingRoomIcon />
                                     </ListItemIcon>
@@ -127,52 +192,63 @@ export default function Sidebar() {
                     {!isRegister ? (
                         <>
                             <LinkedCamera fontSize='large' />
-                            <Typography
-                                variant='h5'
-                                textAlign='center'
-                                mt='10px'
-                                mb='10px'
+                            <form
+                                onSubmit={handleLoginUser}
+                                id='login-user-form'
                             >
-                                Login
-                            </Typography>
-                            <FormControl variant='standard'>
-                                <TextField
-                                    id='login-username'
-                                    label='Username'
-                                    variant='outlined'
-                                />
-                            </FormControl>
-                            <FormControl margin='normal'>
-                                <TextField
-                                    id='login-password'
-                                    label='Password'
-                                    variant='outlined'
-                                    type='password'
-                                />
-                            </FormControl>
-                            <ButtonGroup
-                                variant='contained'
-                                aria-label='outlined primary button group'
-                                sx={{ marginTop: '10px' }}
-                            >
-                                <Button type='submit' startIcon={<LoginIcon />}>
-                                    Login
-                                </Button>
-                                <Button
-                                    endIcon={<DoDisturbIcon />}
-                                    onClick={() => setIsLoginOpen(false)}
+                                <Typography
+                                    variant='h5'
+                                    textAlign='center'
+                                    mt='10px'
+                                    mb='10px'
                                 >
-                                    Cancel
+                                    Login
+                                </Typography>
+                                <FormControl variant='standard'>
+                                    <TextField
+                                        id='login-username'
+                                        label='Username'
+                                        variant='outlined'
+                                        name='username'
+                                    />
+                                </FormControl>
+                                <FormControl margin='normal'>
+                                    <TextField
+                                        id='login-password'
+                                        label='Password'
+                                        variant='outlined'
+                                        type='password'
+                                        autoComplete='true'
+                                        name='password'
+                                    />
+                                </FormControl>
+                                <ButtonGroup
+                                    variant='contained'
+                                    aria-label='outlined primary button group'
+                                    sx={{ marginTop: '10px' }}
+                                >
+                                    <Button
+                                        type='submit'
+                                        startIcon={<LoginIcon />}
+                                    >
+                                        Login
+                                    </Button>
+                                    <Button
+                                        endIcon={<DoDisturbIcon />}
+                                        onClick={() => setIsLoginOpen(false)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </ButtonGroup>
+                                <Button
+                                    startIcon={<HowToRegIcon />}
+                                    variant='outlined'
+                                    sx={{ marginTop: '30px' }}
+                                    onClick={() => setIsRegister(true)}
+                                >
+                                    Register
                                 </Button>
-                            </ButtonGroup>
-                            <Button
-                                startIcon={<HowToRegIcon />}
-                                variant='outlined'
-                                sx={{ marginTop: '30px' }}
-                                onClick={() => setIsRegister(true)}
-                            >
-                                Register
-                            </Button>
+                            </form>
                         </>
                     ) : (
                         <>
@@ -185,46 +261,59 @@ export default function Sidebar() {
                             >
                                 Register
                             </Typography>
-                            <FormControl variant='standard' margin='normal'>
-                                <TextField
-                                    id='register-username'
-                                    label='Username'
-                                    variant='outlined'
-                                />
-                            </FormControl>
-                            <FormControl variant='standard' margin='normal'>
-                                <TextField
-                                    id='register-email'
-                                    label='Email'
-                                    variant='outlined'
-                                />
-                            </FormControl>
-                            <FormControl margin='normal'>
-                                <TextField
-                                    id='register-password'
-                                    label='Password'
-                                    variant='outlined'
-                                    type='password'
-                                />
-                            </FormControl>
-                            <ButtonGroup
-                                variant='contained'
-                                aria-label='outlined primary button group'
-                                sx={{ marginTop: '10px' }}
+                            <form
+                                id='register-user-form'
+                                method='POST'
+                                onSubmit={handleRegisterUser}
                             >
-                                <Button type='submit' startIcon={<LoginIcon />}>
-                                    Register
-                                </Button>
-                                <Button
-                                    endIcon={<DoDisturbIcon />}
-                                    onClick={() => {
-                                        setIsLoginOpen(false);
-                                        setIsRegister(false);
-                                    }}
+                                <FormControl variant='standard' margin='normal'>
+                                    <TextField
+                                        id='register-username'
+                                        label='Username'
+                                        variant='outlined'
+                                        name='username'
+                                    />
+                                </FormControl>
+                                <FormControl variant='standard' margin='normal'>
+                                    <TextField
+                                        id='register-email'
+                                        label='Email'
+                                        variant='outlined'
+                                        name='email'
+                                    />
+                                </FormControl>
+                                <FormControl margin='normal'>
+                                    <TextField
+                                        id='register-password'
+                                        label='Password'
+                                        variant='outlined'
+                                        type='password'
+                                        name='password'
+                                        autoComplete='true'
+                                    />
+                                </FormControl>
+                                <ButtonGroup
+                                    variant='contained'
+                                    aria-label='outlined primary button group'
+                                    sx={{ marginTop: '10px' }}
                                 >
-                                    Cancel
-                                </Button>
-                            </ButtonGroup>
+                                    <Button
+                                        type='submit'
+                                        startIcon={<LoginIcon />}
+                                    >
+                                        Register
+                                    </Button>
+                                    <Button
+                                        endIcon={<DoDisturbIcon />}
+                                        onClick={() => {
+                                            setIsLoginOpen(false);
+                                            setIsRegister(false);
+                                        }}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </ButtonGroup>
+                            </form>
                             <Button
                                 startIcon={<HowToRegIcon />}
                                 variant='outlined'
@@ -237,6 +326,32 @@ export default function Sidebar() {
                     )}
                 </Box>
             </StyledModal>
+            <Snackbar
+                open={isAlertOpen}
+                autoHideDuration={6000}
+                onClose={handleClose}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity='error'
+                    sx={{ width: '100%' }}
+                >
+                    Invalid username or password!
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                open={isSuccesboxOpen}
+                autoHideDuration={6000}
+                onClose={handleClose}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity='success'
+                    sx={{ width: '100%' }}
+                >
+                    Successful action.
+                </Alert>
+            </Snackbar>
         </>
     );
 }
