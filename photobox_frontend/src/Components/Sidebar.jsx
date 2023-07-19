@@ -53,6 +53,9 @@ export default function Sidebar({ setUser, user }) {
         });
         setIsLoginOpen(false);
         setIsRegister(false);
+        setUser({userName: formJson.username});
+        setIsSuccesboxOpen(true);
+        setIsLogoutDisabled(false);
     }
 
     async function handleLoginUser(e) {
