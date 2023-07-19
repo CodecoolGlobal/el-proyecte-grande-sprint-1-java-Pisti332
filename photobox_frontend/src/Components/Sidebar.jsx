@@ -20,6 +20,7 @@ import {
     styled,
 } from '@mui/material';
 import React, { useState } from 'react';
+import './sidebar.css';
 import { LinkedCamera, Login, Upload } from '@mui/icons-material';
 
 const StyledModal = styled(Modal)({
@@ -31,6 +32,21 @@ const StyledModal = styled(Modal)({
 export default function Sidebar() {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
+
+    function handleRegisterUser(e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        const formJson = Object.fromEntries(formData.entries());
+        console.log(formJson);
+        fetch('/api/auth/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formJson),
+        });
+    }
 
     return (
         <>
@@ -108,16 +124,17 @@ export default function Sidebar() {
                             <FormControl variant='standard'>
                                 <TextField
                                     id='login-username'
-                                    label='Username'
+                                    label='username'
                                     variant='outlined'
                                 />
                             </FormControl>
                             <FormControl margin='normal'>
                                 <TextField
                                     id='login-password'
-                                    label='Password'
+                                    label='password'
                                     variant='outlined'
                                     type='password'
+                                    autoComplete='true'
                                 />
                             </FormControl>
                             <ButtonGroup
@@ -155,46 +172,59 @@ export default function Sidebar() {
                             >
                                 Register
                             </Typography>
-                            <FormControl variant='standard' margin='normal'>
-                                <TextField
-                                    id='register-username'
-                                    label='Username'
-                                    variant='outlined'
-                                />
-                            </FormControl>
-                            <FormControl variant='standard' margin='normal'>
-                                <TextField
-                                    id='register-email'
-                                    label='Email'
-                                    variant='outlined'
-                                />
-                            </FormControl>
-                            <FormControl margin='normal'>
-                                <TextField
-                                    id='register-password'
-                                    label='Password'
-                                    variant='outlined'
-                                    type='password'
-                                />
-                            </FormControl>
-                            <ButtonGroup
-                                variant='contained'
-                                aria-label='outlined primary button group'
-                                sx={{ marginTop: '10px' }}
+                            <form
+                                id='register-user-form'
+                                method='POST'
+                                onSubmit={handleRegisterUser}
                             >
-                                <Button type='submit' startIcon={<LoginIcon />}>
-                                    Register
-                                </Button>
-                                <Button
-                                    endIcon={<DoDisturbIcon />}
-                                    onClick={() => {
-                                        setIsLoginOpen(false);
-                                        setIsRegister(false);
-                                    }}
+                                <FormControl variant='standard' margin='normal'>
+                                    <TextField
+                                        id='register-username'
+                                        label='username'
+                                        variant='outlined'
+                                        name='username'
+                                    />
+                                </FormControl>
+                                <FormControl variant='standard' margin='normal'>
+                                    <TextField
+                                        id='register-email'
+                                        label='email'
+                                        variant='outlined'
+                                        name='email'
+                                    />
+                                </FormControl>
+                                <FormControl margin='normal'>
+                                    <TextField
+                                        id='register-password'
+                                        label='password'
+                                        variant='outlined'
+                                        type='password'
+                                        name='password'
+                                        autoComplete='true'
+                                    />
+                                </FormControl>
+                                <ButtonGroup
+                                    variant='contained'
+                                    aria-label='outlined primary button group'
+                                    sx={{ marginTop: '10px' }}
                                 >
-                                    Cancel
-                                </Button>
-                            </ButtonGroup>
+                                    <Button
+                                        type='submit'
+                                        startIcon={<LoginIcon />}
+                                    >
+                                        Register
+                                    </Button>
+                                    <Button
+                                        endIcon={<DoDisturbIcon />}
+                                        onClick={() => {
+                                            setIsLoginOpen(false);
+                                            setIsRegister(false);
+                                        }}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </ButtonGroup>
+                            </form>
                             <Button
                                 startIcon={<HowToRegIcon />}
                                 variant='outlined'
