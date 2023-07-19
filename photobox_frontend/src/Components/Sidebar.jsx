@@ -46,6 +46,24 @@ export default function Sidebar() {
             },
             body: JSON.stringify(formJson),
         });
+        setIsLoginOpen(false);
+        setIsRegister(false);
+    }
+
+    async function handleLoginUser(e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        const formJson = Object.fromEntries(formData.entries());
+        const request = await fetch('/api/auth/signin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formJson),
+        });
+        const response = await request.json();
+        console.log(response);
     }
 
     return (
@@ -113,53 +131,63 @@ export default function Sidebar() {
                     {!isRegister ? (
                         <>
                             <LinkedCamera fontSize='large' />
-                            <Typography
-                                variant='h5'
-                                textAlign='center'
-                                mt='10px'
-                                mb='10px'
+                            <form
+                                onSubmit={handleLoginUser}
+                                id='login-user-form'
                             >
-                                Login
-                            </Typography>
-                            <FormControl variant='standard'>
-                                <TextField
-                                    id='login-username'
-                                    label='username'
-                                    variant='outlined'
-                                />
-                            </FormControl>
-                            <FormControl margin='normal'>
-                                <TextField
-                                    id='login-password'
-                                    label='password'
-                                    variant='outlined'
-                                    type='password'
-                                    autoComplete='true'
-                                />
-                            </FormControl>
-                            <ButtonGroup
-                                variant='contained'
-                                aria-label='outlined primary button group'
-                                sx={{ marginTop: '10px' }}
-                            >
-                                <Button type='submit' startIcon={<LoginIcon />}>
-                                    Login
-                                </Button>
-                                <Button
-                                    endIcon={<DoDisturbIcon />}
-                                    onClick={() => setIsLoginOpen(false)}
+                                <Typography
+                                    variant='h5'
+                                    textAlign='center'
+                                    mt='10px'
+                                    mb='10px'
                                 >
-                                    Cancel
+                                    Login
+                                </Typography>
+                                <FormControl variant='standard'>
+                                    <TextField
+                                        id='login-username'
+                                        label='Username'
+                                        variant='outlined'
+                                        name='username'
+                                    />
+                                </FormControl>
+                                <FormControl margin='normal'>
+                                    <TextField
+                                        id='login-password'
+                                        label='Password'
+                                        variant='outlined'
+                                        type='password'
+                                        autoComplete='true'
+                                        name='password'
+                                    />
+                                </FormControl>
+                                <ButtonGroup
+                                    variant='contained'
+                                    aria-label='outlined primary button group'
+                                    sx={{ marginTop: '10px' }}
+                                >
+                                    <Button
+                                        type='submit'
+                                        startIcon={<LoginIcon />}
+                                    >
+                                        Login
+                                    </Button>
+                                    <Button
+                                        endIcon={<DoDisturbIcon />}
+                                        onClick={() => setIsLoginOpen(false)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </ButtonGroup>
+                                <Button
+                                    startIcon={<HowToRegIcon />}
+                                    variant='outlined'
+                                    sx={{ marginTop: '30px' }}
+                                    onClick={() => setIsRegister(true)}
+                                >
+                                    Register
                                 </Button>
-                            </ButtonGroup>
-                            <Button
-                                startIcon={<HowToRegIcon />}
-                                variant='outlined'
-                                sx={{ marginTop: '30px' }}
-                                onClick={() => setIsRegister(true)}
-                            >
-                                Register
-                            </Button>
+                            </form>
                         </>
                     ) : (
                         <>
@@ -180,7 +208,7 @@ export default function Sidebar() {
                                 <FormControl variant='standard' margin='normal'>
                                     <TextField
                                         id='register-username'
-                                        label='username'
+                                        label='Username'
                                         variant='outlined'
                                         name='username'
                                     />
@@ -188,7 +216,7 @@ export default function Sidebar() {
                                 <FormControl variant='standard' margin='normal'>
                                     <TextField
                                         id='register-email'
-                                        label='email'
+                                        label='Email'
                                         variant='outlined'
                                         name='email'
                                     />
@@ -196,7 +224,7 @@ export default function Sidebar() {
                                 <FormControl margin='normal'>
                                     <TextField
                                         id='register-password'
-                                        label='password'
+                                        label='Password'
                                         variant='outlined'
                                         type='password'
                                         name='password'
