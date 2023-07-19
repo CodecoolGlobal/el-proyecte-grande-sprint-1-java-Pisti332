@@ -12,8 +12,23 @@ function App() {
     const [picture, setPicture] = useState(null);
     const [comments, setComments] = useState([]);
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const formJson = Object.fromEntries(formData.entries());
+
+        comments.push({
+            id: 1,
+            imageName: event.target.id,
+            user: 'Palika',
+            comment: formJson.comment
+        });
+
+
+    }
+
     const showComments = (event) => {
-        console.log(event.target.id);
         setIsFeed(false);
         for (const item of itemData) {
             if (item.title === event.target.id) {
@@ -44,7 +59,7 @@ function App() {
                         <Sidebar />
                         <Box>
                             <Picture picture={picture} />
-                            <Comments comments={comments} />
+                            <Comments specComments={comments} handleSubmit={handleSubmit} />
                         </Box>
                     </Stack>
                 </>}
