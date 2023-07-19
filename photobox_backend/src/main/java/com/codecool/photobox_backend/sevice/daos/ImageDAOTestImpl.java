@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class ImageDAOTestImpl implements ImageDAO{
@@ -21,7 +22,7 @@ public class ImageDAOTestImpl implements ImageDAO{
     @Autowired
     public ImageDAOTestImpl(FoldersFilesReader foldersFilesReader, ImageConverter imageConverter, ImageWriter imageWriter) {
         this.foldersFilesReader = foldersFilesReader;
-        this.images = this.foldersFilesReader.readFileNames(imagesFolderPath);
+        this.images = new ArrayList<>();
         this.imageConverter = imageConverter;
         this.imageWriter = imageWriter;
     }
