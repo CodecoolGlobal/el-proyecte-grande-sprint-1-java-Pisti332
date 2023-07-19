@@ -18,7 +18,7 @@ const SearchBar = styled('div')(() => ({
     width: '100%',
 }));
 
-export default function TopBar() {
+export default function TopBar({user}) {
     return (
         <>
             <AppBar position='sticky'>
@@ -58,7 +58,7 @@ export default function TopBar() {
                             </SearchBar>
                         </Box>
                         <Box display='flex' gap={2} sx={{alignItems: 'center'}}>
-                            <Typography variant='b1'>UserName</Typography>
+                            <Typography variant='b1'>{user.userName}</Typography>
                             <Avatar
                                 alt='User avatar'
                                 src='https://imageio.forbes.com/specials-images/imageserve/6499ae7d51794529225d4176/2022-Toronto-International-Film-Festival---In-Conversation-With----Taylor-Swift/960x0.jpg?format=jpg&width=960'
