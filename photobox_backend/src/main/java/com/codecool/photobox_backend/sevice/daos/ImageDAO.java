@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public interface ImageDAO {
-    String IMAGES_FOLDER_PATH = "E:\\Programming Projects\\el-proyecte-grande-sprint-1-java-Pisti332\\photobox_backend\\src\\main\\java\\com\\codecool\\photobox_backend\\repository\\images";
+    String IMAGES_FOLDER_PATH = System.getenv("IMAGES_FOLDER_PATH");
     ImageNamesDTO getAllImageNames();
     void uploadImage(NewImageDTO newImageDTO) throws IOException;
 
