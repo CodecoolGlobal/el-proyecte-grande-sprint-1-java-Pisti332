@@ -47,7 +47,9 @@ const Feed = ({ showComments }) => {
                             title={item.title}
                             subtitle={item.author}
                             actionIcon={
-                                <IconButton onClick={showComments}
+                                <IconButton
+                                    id={item.title}
+                                    onClick={showComments}
                                     sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                                     aria-label={`info about ${item.title}`}
                                 >
@@ -62,7 +64,7 @@ const Feed = ({ showComments }) => {
         </Box>
     )
 }
-           
+
 export default Feed;
 
 const itemData = [

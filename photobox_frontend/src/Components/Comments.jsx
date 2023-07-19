@@ -1,31 +1,42 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
 
-export default function MultilineTextFields() {
-  const [comments, setComments] = useState([commentExamples]);
+export default function Comments({ comments }) {
+  //const [comments, setComments] = useState([commentExamples]);
+
   return (<Box>
-    {commentExamples.map((comment) =>
-      <Box
-        key={comment.id}
-        component="form"
-        sx={{
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div>
-          <TextField
-            label={comment.user}
-            multiline
-            rows={3}
-            defaultValue={comment.comment}
-          />
 
-        </div>
+    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+      <Box>
+        {comments.map((item) => (
+          <ListItem
+            key={item.imageName}
+            alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            </ListItemAvatar>
+            <ListItemText
+              primary={item.imageName}
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    sx={{ display: 'inline' }}
+                    component="span"
+                    variant="body2"
+                    color="text.primary"
+                  >
+                    {item.user} -
+                  </Typography>
+                  {item.comment}
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+        ))}
       </Box>
-    )}
+    </List>
   </Box>
   )
 }
@@ -33,16 +44,19 @@ export default function MultilineTextFields() {
 const commentExamples = [
   {
     id: 1,
+    imageName: 'Breakfast',
     user: 'Palika',
     comment: 'Nagyon cuki!'
   },
   {
     id: 2,
+    imageName: 'Basketball',
     user: 'Marika',
     comment: 'Nekem is tetszik!'
   },
   {
     id: 3,
+    imageName: 'Cute Cat',
     user: 'Garfield',
     comment: 'Nekem nem!'
   }
