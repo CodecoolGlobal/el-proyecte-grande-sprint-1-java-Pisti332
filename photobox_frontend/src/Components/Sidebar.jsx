@@ -30,6 +30,7 @@ const StyledModal = styled(Modal)({
 
 export default function Sidebar() {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const [isRegister, setIsRegister] = useState(false);
 
     return (
         <>
@@ -84,7 +85,7 @@ export default function Sidebar() {
             >
                 <Box
                     width={400}
-                    height={400}
+                    height={500}
                     bgcolor={'background.default'}
                     color={'text.primary'}
                     p={3}
@@ -93,36 +94,117 @@ export default function Sidebar() {
                     flexDirection='column'
                     sx={{ alignItems: 'center' }}
                 >
-                    <LinkedCamera fontSize='large' />
-                    <Typography variant='h5' textAlign='center' mt='10px' mb='10px'>
-                        Login
-                    </Typography>
-                    <FormControl variant='standard'>
-                        <TextField
-                            id='login-username'
-                            label='Username'
-                            variant='outlined'
-                        />
-                    </FormControl>
-                    <FormControl margin='normal'>
-                        <TextField
-                            id='login-password'
-                            label='Password'
-                            variant='outlined'
-                            type='password'
-                        />
-                    </FormControl>
-                    <ButtonGroup
-                        variant='contained'
-                        aria-label='outlined primary button group'
-                        sx={{ marginTop: '10px' }}
-                    >
-                        <Button type='submit' startIcon={<LoginIcon />}>
-                            Login
-                        </Button>
-                        <Button endIcon={<DoDisturbIcon />} onClick={() => setIsLoginOpen(false)}>Cancel</Button>
-                    </ButtonGroup>
-                    <Button startIcon={<HowToRegIcon />} variant="outlined" sx={{marginTop: '30px'}}>Register</Button>
+                    {!isRegister ? (
+                        <>
+                            <LinkedCamera fontSize='large' />
+                            <Typography
+                                variant='h5'
+                                textAlign='center'
+                                mt='10px'
+                                mb='10px'
+                            >
+                                Login
+                            </Typography>
+                            <FormControl variant='standard'>
+                                <TextField
+                                    id='login-username'
+                                    label='Username'
+                                    variant='outlined'
+                                />
+                            </FormControl>
+                            <FormControl margin='normal'>
+                                <TextField
+                                    id='login-password'
+                                    label='Password'
+                                    variant='outlined'
+                                    type='password'
+                                />
+                            </FormControl>
+                            <ButtonGroup
+                                variant='contained'
+                                aria-label='outlined primary button group'
+                                sx={{ marginTop: '10px' }}
+                            >
+                                <Button type='submit' startIcon={<LoginIcon />}>
+                                    Login
+                                </Button>
+                                <Button
+                                    endIcon={<DoDisturbIcon />}
+                                    onClick={() => setIsLoginOpen(false)}
+                                >
+                                    Cancel
+                                </Button>
+                            </ButtonGroup>
+                            <Button
+                                startIcon={<HowToRegIcon />}
+                                variant='outlined'
+                                sx={{ marginTop: '30px' }}
+                                onClick={() => setIsRegister(true)}
+                            >
+                                Register
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <LinkedCamera fontSize='large' />
+                            <Typography
+                                variant='h5'
+                                textAlign='center'
+                                mt='10px'
+                                mb='10px'
+                            >
+                                Register
+                            </Typography>
+                            <FormControl variant='standard' margin='normal'>
+                                <TextField
+                                    id='register-username'
+                                    label='Username'
+                                    variant='outlined'
+                                />
+                            </FormControl>
+                            <FormControl variant='standard' margin='normal'>
+                                <TextField
+                                    id='register-email'
+                                    label='Email'
+                                    variant='outlined'
+                                />
+                            </FormControl>
+                            <FormControl margin='normal'>
+                                <TextField
+                                    id='register-password'
+                                    label='Password'
+                                    variant='outlined'
+                                    type='password'
+                                />
+                            </FormControl>
+                            <ButtonGroup
+                                variant='contained'
+                                aria-label='outlined primary button group'
+                                sx={{ marginTop: '10px' }}
+                            >
+                                <Button type='submit' startIcon={<LoginIcon />}>
+                                    Register
+                                </Button>
+                                <Button
+                                    endIcon={<DoDisturbIcon />}
+                                    onClick={() => {
+                                        setIsLoginOpen(false);
+                                        setIsRegister(false);
+                                    }}
+                                >
+                                    Cancel
+                                </Button>
+                            </ButtonGroup>
+                            <Button
+                                startIcon={<HowToRegIcon />}
+                                variant='outlined'
+                                sx={{ marginTop: '30px' }}
+                                onClick={() => setIsRegister(false)}
+                            >
+                                Login
+                            </Button>
+                        </>
+                    )}
                 </Box>
             </StyledModal>
         </>
