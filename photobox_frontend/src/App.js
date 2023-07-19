@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import TopBar from './Components/TopBar';
 import Sidebar from './Components/Sidebar';
 import Feed from './Components/Feed'
@@ -17,7 +17,7 @@ function App() {
         setIsFeed(false);
         for (const item of itemData) {
             if (item.title === event.target.id) {
-                setPicture(item.img);
+                setPicture(item);
             }
         }
         for (const comment of commentExamples) {
@@ -30,22 +30,24 @@ function App() {
     return (
         <>
             {isFeed ?
-            <>
-                <TopBar />
-                <Stack direction='row' spacing={2} justifyContent='space-between'>
-                    <Sidebar />
-                    <Feed showComments={showComments} />
-                </Stack>
-            </>
-            :
-            <>
-                <TopBar />
-                <Stack direction='row' spacing={2} justifyContent='space-between'>
-                    <Sidebar />
-                    <Picture picture={picture} />
-                    <Comments comments={comments} />
-                </Stack>
-            </>}
+                <>
+                    <TopBar />
+                    <Stack direction='row' spacing={2} justifyContent='space-between'>
+                        <Sidebar />
+                        <Feed showComments={showComments} />
+                    </Stack>
+                </>
+                :
+                <>
+                    <TopBar />
+                    <Stack direction='row' spacing={2} justifyContent='space-between'>
+                        <Sidebar />
+                        <Box>
+                            <Picture picture={picture} />
+                            <Comments comments={comments} />
+                        </Box>
+                    </Stack>
+                </>}
         </>
     );
 }

@@ -18,7 +18,7 @@ export default function Comments({ comments }) {
               <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
             <ListItemText
-              primary={item.imageName}
+              primary={item.user}
               secondary={
                 <React.Fragment>
                   <Typography
@@ -27,9 +27,9 @@ export default function Comments({ comments }) {
                     variant="body2"
                     color="text.primary"
                   >
-                    {item.user} -
+                    {item.comment}
                   </Typography>
-                  {item.comment}
+
                 </React.Fragment>
               }
             />
