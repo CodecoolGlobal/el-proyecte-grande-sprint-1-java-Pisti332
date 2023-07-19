@@ -109,6 +109,7 @@ export default function Sidebar() {
                             id='login-password'
                             label='Password'
                             variant='outlined'
+                            type='password'
                         />
                     </FormControl>
                     <ButtonGroup
