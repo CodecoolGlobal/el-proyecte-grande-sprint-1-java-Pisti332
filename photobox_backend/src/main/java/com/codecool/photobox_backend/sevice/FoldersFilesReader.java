@@ -8,9 +8,8 @@ import java.util.List;
 
 @Service
 public class FoldersFilesReader {
-    private List<String> fileNames = new ArrayList<>();
-
     public List<String> readFileNames(String pathOfFolder) {
+        List<String> fileNames = new ArrayList<>();
         File folder = new File(pathOfFolder);
         File[] listOfFiles = folder.listFiles();
 
@@ -19,6 +18,6 @@ public class FoldersFilesReader {
                 fileNames.add(listOfFile.getName());
             }
         }
-        return this.fileNames;
+        return fileNames;
     }
 }

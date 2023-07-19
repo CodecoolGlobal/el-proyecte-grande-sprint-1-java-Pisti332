@@ -5,7 +5,6 @@ import com.codecool.photobox_backend.controller.dtos.image.NewImageDTO;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
 
 @Service
 public interface ImageDAO {
