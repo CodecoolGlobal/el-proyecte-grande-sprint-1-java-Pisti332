@@ -17,25 +17,24 @@ public class ImageDAOTestImpl implements ImageDAO{
     private ImageConverter imageConverter;
     private ImageWriter imageWriter;
     private FoldersFilesReader foldersFilesReader;
-    private final static String UPLOAD_PATH = "E:\\Programming Projects\\el-proyecte-grande-sprint-1-java-Pisti332\\photobox_backend\\src\\main\\resources\\static";
-
+    private final String imagesFolderPath = ImageDAO.IMAGES_FOLDER_PATH;
     @Autowired
     public ImageDAOTestImpl(FoldersFilesReader foldersFilesReader, ImageConverter imageConverter, ImageWriter imageWriter) {
         this.foldersFilesReader = foldersFilesReader;
-        this.images = this.foldersFilesReader.readFileNames(IMAGES_FOLDER_PATH);
+        this.images = this.foldersFilesReader.readFileNames(imagesFolderPath);
         this.imageConverter = imageConverter;
         this.imageWriter = imageWriter;
     }
 
     @Override
     public ImageNamesDTO getAllImageNames() {
-        this.images = foldersFilesReader.readFileNames(IMAGES_FOLDER_PATH);
+        this.images = foldersFilesReader.readFileNames(imagesFolderPath);
         return new ImageNamesDTO(this.images);
     }
 
     @Override
     public void uploadImage(NewImageDTO newImageDTO) throws IOException {
         BufferedImage bufferedImage = imageConverter.convert(newImageDTO.imageData());
-        imageWriter.saveImageAsFile(bufferedImage, newImageDTO.imageName(), UPLOAD_PATH, newImageDTO.format());
+        imageWriter.saveImageAsFile(bufferedImage, newImageDTO.imageName(), imagesFolderPath, newImageDTO.format());
     }
 }
