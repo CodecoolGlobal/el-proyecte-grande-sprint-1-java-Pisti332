@@ -3,15 +3,15 @@ import './App.css';
 import { Box, Stack } from '@mui/material';
 import TopBar from './Components/TopBar';
 import Sidebar from './Components/Sidebar';
-import Feed from './Components/Feed'
-import Comments from './Components/Comments'
-import Picture from './Components/Picture'
+import Feed from './Components/Feed';
+import Comments from './Components/Comments';
+import Picture from './Components/Picture';
 
 function App() {
     const [isFeed, setIsFeed] = useState(true);
     const [picture, setPicture] = useState(null);
     const [comments, setComments] = useState([]);
-    const [user, setUser] = useState({  userName: 'Please log in...'  })
+    const [user, setUser] = useState({ userName: 'Please log in...' });
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -23,47 +23,57 @@ function App() {
             id: 1,
             imageName: event.target.id,
             user: user.userName,
-            comment: formJson.comment
+            comment: formJson.comment,
         });
-
-
-    }
+    };
 
     const showComments = (event) => {
         setIsFeed(false);
         for (const item of itemData) {
-            if (item.title === event.target.id) {
+            if (item.title === event.currentTarget.id) {
                 setPicture(item);
             }
         }
         for (const comment of commentExamples) {
-            if (comment.imageName === event.target.id) {
+            if (comment.imageName === event.currentTarget.id) {
                 comments.push(comment);
             }
         }
-    }
+    };
 
     return (
         <>
-            {isFeed ?
+            {isFeed ? (
                 <>
-                    <TopBar user={user}/>
-                    <Stack direction='row' spacing={2} justifyContent='space-between'>
-                        <Sidebar user={user} setUser={setUser}/>
+                    <TopBar user={user} />
+                    <Stack
+                        direction='row'
+                        spacing={2}
+                        justifyContent='space-between'
+                    >
+                        <Sidebar user={user} setUser={setUser} />
                         <Feed showComments={showComments} />
                     </Stack>
                 </>
-                :
+            ) : (
                 <>
-                    <TopBar user={user}/>
-                    <Stack direction='row' spacing={2} justifyContent='space-between'>
-                        <Sidebar user={user} setUser={setUser}/>
+                    <TopBar user={user} />
+                    <Stack
+                        direction='row'
+                        spacing={2}
+                        justifyContent='center'
+                    >
+                        <Sidebar user={user} setUser={setUser} />
                         <Box>
                             <Picture picture={picture} />
-                            <Comments comments={commentExamples} handleSubmit={handleSubmit} />
+                            <Comments
+                                comments={comments}
+                                handleSubmit={handleSubmit}
+                            />
                         </Box>
                     </Stack>
-                </>}
+                </>
+            )}
         </>
     );
 }
@@ -75,21 +85,39 @@ const commentExamples = [
         id: 1,
         imageName: 'Breakfast',
         user: 'Palika',
-        comment: 'Nagyon cuki!'
+        comment: 'Nagyon cuki!',
     },
     {
         id: 2,
-        imageName: 'Basketball',
-        user: 'Marika',
-        comment: 'Nekem is tetszik!'
+        imageName: 'Breakfast',
+        user: 'Palika',
+        comment: 'Nagyon cuki!',
     },
     {
         id: 3,
+        imageName: 'Breakfast',
+        user: 'Palika',
+        comment: 'Nagyon cuki!',
+    },
+    {
+        id: 4,
+        imageName: 'Breakfast',
+        user: 'Palika',
+        comment: 'Nagyon cuki!',
+    },
+    {
+        id: 5,
+        imageName: 'Basketball',
+        user: 'Marika',
+        comment: 'Nekem is tetszik!',
+    },
+    {
+        id: 6,
         imageName: 'Burger',
         user: 'Garfield',
-        comment: 'Nekem nem!'
-    }
-]
+        comment: 'Nekem nem!',
+    },
+];
 
 const itemData = [
     {
@@ -153,4 +181,3 @@ const itemData = [
         author: '@southside_customs',
     },
 ];
-

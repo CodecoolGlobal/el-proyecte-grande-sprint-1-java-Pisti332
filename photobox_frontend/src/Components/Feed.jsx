@@ -13,26 +13,15 @@ const fetchPictures = () => {
 
 const Feed = ({ showComments }) => {
     const [loading, setLoading] = useState(false);
-    //const [pictures, setPictures] = useState(null);
-
-    /*useEffect(() => {
-        fetchPictures()
-            .then((pictures) => {
-                setLoading(false);
-                setPictures(pictures);
-            })
-    }, []);*/
-
     if (loading) {
         return <Loading />;
     }
 
     return (
-
         <Box>
             <ImageList cols={4} gap={30}>
-                <ImageListItem key="Subheader">
-                    <ListSubheader component="div">December</ListSubheader>
+                <ImageListItem key='Subheader'>
+                    <ListSubheader component='div'>December</ListSubheader>
                 </ImageListItem>
                 {itemData.map((item) => (
                     <ImageListItem key={item.img}>
@@ -40,7 +29,7 @@ const Feed = ({ showComments }) => {
                             src={`${item.img}?w=248&fit=crop&auto=format`}
                             srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
                             alt={item.title}
-                            loading="lazy"
+                            loading='lazy'
                         />
                         <ImageListItemBar
                             title={item.title}
@@ -52,17 +41,16 @@ const Feed = ({ showComments }) => {
                                     sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                                     aria-label={`info about ${item.title}`}
                                 >
-                                    {/* <Comment /> */}
+                                    <Comment id={item.title} />
                                 </IconButton>
                             }
                         />
                     </ImageListItem>
                 ))}
             </ImageList>
-
         </Box>
-    )
-}
+    );
+};
 
 export default Feed;
 
