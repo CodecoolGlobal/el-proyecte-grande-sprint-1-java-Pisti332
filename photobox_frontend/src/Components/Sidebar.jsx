@@ -44,7 +44,6 @@ export default function Sidebar({ setUser, user }) {
         const form = e.target;
         const formData = new FormData(form);
         const formJson = Object.fromEntries(formData.entries());
-        console.log(formJson);
         fetch('/api/auth/signup', {
             method: 'POST',
             headers: {
@@ -105,21 +104,30 @@ export default function Sidebar({ setUser, user }) {
         reader.onerror = reject;
     });
     const sendImage = async(event) => {
-        const file = event.target.files[0];
-        const base64Image = await toBase64(file);
-        const base64Split = base64Image.split(",")[1];
-        fetch("/api/images", {
-            "method": "POST",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": JSON.stringify({
-                "imageName": "test",
-                "username": "Pisti",
-                "imageData": base64Split,
-                "format": "png"
+        try {
+            const file = event.target.files[0];
+            const name = event.target.files[0].name;
+            const base64Image = await toBase64(file);
+            console.log(base64Image);
+            const base64Split = base64Image.split(",")[1];
+            const format = base64Image.substring(base64Image.indexOf("/") + 1, base64Image.indexOf(";"));
+            console.log(name);
+            fetch("/api/images", {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": JSON.stringify({
+                    "imageName": name,
+                    "username": "Pisti",
+                    "imageData": base64Split,
+                    "format": format
+                })
             })
-        })
+        }
+        catch(e) {
+            
+        }
     };
 
     return (
