@@ -7,22 +7,7 @@ import {
 import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
 import React from 'react';
 
-export default function SpeedDialMenu({ setIsLoginOpen, sendImage }) {
-    const actions = [
-        { icon: <Login />, name: 'Login' },
-        {
-            icon: <Upload />,
-            name: 'Upload photo',
-        },
-        {
-            icon: <AlternateEmail />,
-            name: 'Contact',
-        },
-        {
-            icon: <MeetingRoom />,
-            name: 'Logout',
-        },
-    ];
+export default function SpeedDialMenu({ setIsLoginOpen, handleLogOut, isLogoutDisabled }) {
 
     return (
         <SpeedDial
@@ -41,6 +26,17 @@ export default function SpeedDialMenu({ setIsLoginOpen, sendImage }) {
             }}
             icon={<SpeedDialIcon />}
         >
+            <SpeedDialAction
+                key='Logout'
+                icon={<MeetingRoom />}
+                tooltipTitle='Logout'
+                onClick={() => handleLogOut()}
+            />
+            <SpeedDialAction
+                key='Contact'
+                icon={<AlternateEmail />}
+                tooltipTitle='Contact'
+            />
             <SpeedDialAction
                 key='Login'
                 icon={<Login />}

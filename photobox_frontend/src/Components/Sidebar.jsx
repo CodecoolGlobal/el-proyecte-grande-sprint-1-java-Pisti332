@@ -367,7 +367,7 @@ export default function Sidebar({ setUser, user }) {
                     Successful action.
                 </Alert>
             </Snackbar>
-            <SpeedDialMenu setIsLoginOpen={setIsLoginOpen} sendImage={sendImage}/>
+            <SpeedDialMenu setIsLoginOpen={setIsLoginOpen} handleLogOut={handleLogOut} isLogoutDisabled={isLogoutDisabled}/>
         </>
     );
 }
