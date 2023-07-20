@@ -1,0 +1,8 @@
+#register-user-form {
+    display: flex;
+    flex-direction: column;
+}
+#login-user-form {
+    display: flex;
+    flex-direction: column;
+}

@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Avatar, Divider, FormControl, IconButton, List, ListItem, ListItemAvatar, ListItemText, OutlinedInput, Typography } from '@mui/material';
+import { Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import { Send } from '@mui/icons-material';
 
-export default function Comments({ specComments, handleSubmit }) {
-  const [comments, setComments] = useState([null]);
+export default function Comments({ comments, handleSubmit }) {
 
   return (<Box>
 
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       <Box>
-        {specComments.map((item) => (
+        {comments.map((item) => (
           <Box key={item.imageName}>
             <ListItem
               alignItems="flex-start">
               <ListItemAvatar>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                <Avatar alt="Remy Sharp" />
               </ListItemAvatar>
               <ListItemText
                 primary={item.user}
@@ -35,52 +34,28 @@ export default function Comments({ specComments, handleSubmit }) {
                 }
               />
             </ListItem>
-
-
-            <form className='container' onSubmit={handleSubmit}>
-              
-                <TextField name="comment"
-                  rows={4}
-                  cols={40}
-                  id="outlined-basic" label="New comment" variant="outlined" />
-                <Typography className='divider' />
-                <IconButton
-                  type="submit"
-                  className='button'
-                  id={item.imageName}
-                  sx={{ color: 'rgba(155, 155, 155, 0.54)' }}
-                  aria-label={`info about ${item.imageName}`}
-                >
-                  <Send />
-                </IconButton>
-              
-            </form>
           </Box>
         ))}
       </Box>
 
     </List >
+    <form className='container' onSubmit={handleSubmit}>
+
+      <TextField name="comment"
+        rows={4}
+        cols={40}
+        id="outlined-basic" label="New comment" variant="outlined" />
+      <Typography className='divider' />
+      <IconButton
+        type="submit"
+        className='button'
+        sx={{ zIndex: 1, color: 'rgba(155, 155, 155, 0.54)' }}
+      >
+        <Send />
+      </IconButton>
+
+    </form>
   </Box >
   )
 }
 
-const commentExamples = [
-  {
-    id: 1,
-    imageName: 'Breakfast',
-    user: 'Palika',
-    comment: 'Nagyon cuki!'
-  },
-  {
-    id: 2,
-    imageName: 'Basketball',
-    user: 'Marika',
-    comment: 'Nekem is tetszik!'
-  },
-  {
-    id: 3,
-    imageName: 'Cute Cat',
-    user: 'Garfield',
-    comment: 'Nekem nem!'
-  }
-]

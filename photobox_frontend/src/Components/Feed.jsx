@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Loading from './Loading/Loading';
-import { Box, Button, IconButton, ListSubheader } from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
+import { Box, IconButton, ListSubheader } from '@mui/material';
 import { Comment } from '@mui/icons-material';
 
 const fetchPictures = () => {
@@ -52,8 +51,8 @@ const Feed = ({ showComments }) => {
                                     onClick={showComments}
                                     sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                                     aria-label={`info about ${item.title}`}
+                                    starticon={<Comment/>}
                                 >
-                                    <Comment />
                                 </IconButton>
                             }
                         />
