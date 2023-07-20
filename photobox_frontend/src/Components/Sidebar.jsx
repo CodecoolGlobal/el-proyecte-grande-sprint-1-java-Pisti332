@@ -123,7 +123,13 @@ export default function Sidebar({ setUser, user }) {
 
     return (
         <>
-            <Box flex={1} p={2}>
+            <Box flex={1} p={2} sx={{display: {
+                                    xs: 'none',
+                                    sm: 'none',
+                                    md: 'none',
+                                    lg: 'block',
+                                    xl: 'block',
+                                }}}>
                 <Box position='fixed'>
                     <Paper elevation={3}>
                         <List>
