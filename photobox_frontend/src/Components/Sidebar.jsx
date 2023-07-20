@@ -23,6 +23,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import './sidebar.css';
+import SpeedDialMenu from './SpeedDialMenu';
 import { LinkedCamera, Login, Upload } from '@mui/icons-material';
 
 const StyledModal = styled(Modal)({
@@ -131,7 +132,13 @@ export default function Sidebar({ setUser, user }) {
 
     return (
         <>
-            <Box flex={1} p={2}>
+            <Box flex={1} p={2} sx={{display: {
+                                    xs: 'none',
+                                    sm: 'none',
+                                    md: 'none',
+                                    lg: 'block',
+                                    xl: 'block',
+                                }}}>
                 <Box position='fixed'>
                     <Paper elevation={3}>
                         <List>
@@ -360,6 +367,7 @@ export default function Sidebar({ setUser, user }) {
                     Successful action.
                 </Alert>
             </Snackbar>
+            <SpeedDialMenu setIsLoginOpen={setIsLoginOpen} handleLogOut={handleLogOut} isLogoutDisabled={isLogoutDisabled}/>
         </>
     );
 }

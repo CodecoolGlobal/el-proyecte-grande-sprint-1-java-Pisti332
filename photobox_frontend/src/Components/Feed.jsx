@@ -30,8 +30,8 @@ const Feed = ({ showComments }) => {
     return (
 
         <Box>
-            <ImageList cols={3} gap={30} sx={{ width: 900, height: 450 }}>
-                <ImageListItem key="Subheader" cols={3}>
+            <ImageList cols={4} gap={30}>
+                <ImageListItem key="Subheader">
                     <ListSubheader component="div">December</ListSubheader>
                 </ImageListItem>
                 {itemData.map((item) => (

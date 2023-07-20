@@ -18,7 +18,7 @@ const SearchBar = styled('div')(() => ({
     width: '100%',
 }));
 
-export default function TopBar({user}) {
+export default function TopBar({ user }) {
     return (
         <>
             <AppBar position='sticky'>
@@ -34,11 +34,15 @@ export default function TopBar({user}) {
                             href='/'
                             sx={{
                                 mr: 2,
-                                display: 'flex',
                                 fontWeight: 700,
                                 letterSpacing: '.3rem',
                                 color: 'inherit',
                                 textDecoration: 'none',
+                                display: {
+                                    xs: 'none',
+                                    sm: 'none',
+                                    md: 'block',
+                                },
                             }}
                         >
                             <LinkedCamera
@@ -57,8 +61,15 @@ export default function TopBar({user}) {
                                 <InputBase placeholder='Search...' />
                             </SearchBar>
                         </Box>
-                        <Box display='flex' gap={2} sx={{alignItems: 'center'}}>
-                            <Typography variant='b1'>{user.userName}</Typography>
+                        <LinkedCamera fontSize='large' sx={{display: {xs: 'block', sm: 'block', md: 'none'}}} />
+                        <Box
+                            display='flex'
+                            gap={2}
+                            sx={{ alignItems: 'center' }}
+                        >
+                            <Typography variant='b1'>
+                                {user.userName}
+                            </Typography>
                             <Avatar
                                 alt='User avatar'
                                 src='https://imageio.forbes.com/specials-images/imageserve/6499ae7d51794529225d4176/2022-Toronto-International-Film-Festival---In-Conversation-With----Taylor-Swift/960x0.jpg?format=jpg&width=960'
