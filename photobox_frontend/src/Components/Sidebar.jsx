@@ -23,6 +23,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import './sidebar.css';
+import SpeedDialMenu from './SpeedDialMenu';
 import { LinkedCamera, Login, Upload } from '@mui/icons-material';
 
 const StyledModal = styled(Modal)({
@@ -358,6 +359,7 @@ export default function Sidebar({ setUser, user }) {
                     Successful action.
                 </Alert>
             </Snackbar>
+            <SpeedDialMenu setIsLoginOpen={setIsLoginOpen} sendImage={sendImage}/>
         </>
     );
 }
