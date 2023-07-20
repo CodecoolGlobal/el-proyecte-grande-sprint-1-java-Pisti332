@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Loading from './Loading/Loading';
-import { Box } from '@mui/material';
+import { Box, IconButton, ListSubheader } from '@mui/material';
+import { Comment } from '@mui/icons-material';
 
 const fetchPictures = () => {
     return fetch('/api/pictures').then((res) => res.json());
 };
 
-const Feed = () => {
+const Feed = ({ showComments }) => {
     const [loading, setLoading] = useState(false);
     //const [pictures, setPictures] = useState(null);
 
@@ -27,27 +28,41 @@ const Feed = () => {
     }
 
     return (
+
         <Box>
             <ImageList cols={4} gap={30}>
+                <ImageListItem key="Subheader">
+                    <ListSubheader component="div">December</ListSubheader>
+                </ImageListItem>
                 {itemData.map((item) => (
                     <ImageListItem key={item.img}>
                         <img
                             src={`${item.img}?w=248&fit=crop&auto=format`}
                             srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
                             alt={item.title}
-                            loading='lazy'
+                            loading="lazy"
                         />
                         <ImageListItemBar
                             title={item.title}
-                            subtitle={<span>by: {item.author}</span>}
-                            position='below'
+                            subtitle={item.author}
+                            actionIcon={
+                                <IconButton
+                                    id={item.title}
+                                    onClick={showComments}
+                                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                                    aria-label={`info about ${item.title}`}
+                                >
+                                    {/* <Comment /> */}
+                                </IconButton>
+                            }
                         />
                     </ImageListItem>
                 ))}
             </ImageList>
+
         </Box>
-    );
-};
+    )
+}
 
 export default Feed;
 
