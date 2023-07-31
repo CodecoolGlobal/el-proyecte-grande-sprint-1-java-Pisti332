@@ -1,16 +1,10 @@
 package com.codecool.photobox_backend.repository;
 
-import com.codecool.photobox_backend.controller.dtos.user.NewUserDTO;
-import com.codecool.photobox_backend.controller.dtos.user.UpdateUserDTO;
-import com.codecool.photobox_backend.controller.dtos.user.UserDTO;
-import com.codecool.photobox_backend.controller.dtos.user.UserLoginDTO;
+import com.codecool.photobox_backend.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository {
-    void postUser(NewUserDTO newUserDTO);
-    UserDTO getUserById(String id);
-    void updateUserById(String id, UpdateUserDTO updateUserDTO);
-    void deleteUserById(String id);
-    boolean checkIfUserExists(UserLoginDTO userLoginDTO);
-
-
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByName(String userName);
 }

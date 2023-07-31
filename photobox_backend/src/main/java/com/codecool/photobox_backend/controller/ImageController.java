@@ -27,6 +27,6 @@ public class ImageController {
     }
     @PostMapping
     public void uploadImage(@RequestBody NewImageDTO newImageDTO) throws IOException {
-        imageService.uploadImage(newImageDTO);
+//        imageService.uploadImage(newImageDTO);
     }
 }
