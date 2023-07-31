@@ -1,12 +1,7 @@
-package com.codecool.photobox_backend.sevice.daos.models;
+package com.codecool.photobox_backend.model;
 
-import com.codecool.photobox_backend.controller.dtos.user.UpdateUserDTO;
-import com.codecool.photobox_backend.controller.dtos.user.UserDTO;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
