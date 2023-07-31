@@ -4,13 +4,12 @@ import com.codecool.photobox_backend.controller.dtos.user.NewUserDTO;
 import com.codecool.photobox_backend.controller.dtos.user.UpdateUserDTO;
 import com.codecool.photobox_backend.controller.dtos.user.UserDTO;
 import com.codecool.photobox_backend.controller.dtos.user.UserLoginDTO;
+import com.codecool.photobox_backend.sevice.daos.models.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserDAO {
-    void postUser(NewUserDTO newUserDTO);
-    UserDTO getUserById(String id);
-    void updateUserById(String id, UpdateUserDTO updateUserDTO);
-    void deleteUserById(String id);
-    boolean checkIfUserExists(UserLoginDTO userLoginDTO);
+@Repository
+public interface UserDAO extends JpaRepository<User, Long> {
 
 
 }
