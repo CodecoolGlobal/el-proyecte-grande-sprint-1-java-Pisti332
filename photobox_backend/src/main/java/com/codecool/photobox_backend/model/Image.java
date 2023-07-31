@@ -24,6 +24,7 @@ public class Image {
     private UUID id;
     private String name;
     private String path;
-//    private User user;
+    @ManyToOne
+    private User user;
 //    private Set<Comment> comments;
 }
