@@ -4,17 +4,17 @@ import com.codecool.photobox_backend.controller.dtos.user.NewUserDTO;
 import com.codecool.photobox_backend.controller.dtos.user.UpdateUserDTO;
 import com.codecool.photobox_backend.controller.dtos.user.UserDTO;
 import com.codecool.photobox_backend.controller.dtos.user.UserLoginDTO;
-import com.codecool.photobox_backend.sevice.daos.UserDAO;
+import com.codecool.photobox_backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/auth")
 public class UserController {
-    private UserDAO userDAOTestImpl;
+    private UserRepository userDAOTestImpl;
 
     @Autowired
-    public UserController(UserDAO userDAOTestImpl) {
+    public UserController(UserRepository userDAOTestImpl) {
         this.userDAOTestImpl = userDAOTestImpl;
     }
 
