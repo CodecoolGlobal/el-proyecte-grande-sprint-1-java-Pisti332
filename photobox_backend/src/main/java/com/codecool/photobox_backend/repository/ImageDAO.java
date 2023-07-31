@@ -1,4 +1,4 @@
-package com.codecool.photobox_backend.sevice.daos;
+package com.codecool.photobox_backend.repository;
 
 import com.codecool.photobox_backend.controller.dtos.image.ImageNamesDTO;
 import com.codecool.photobox_backend.controller.dtos.image.NewImageDTO;

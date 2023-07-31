@@ -2,7 +2,7 @@ package com.codecool.photobox_backend.controller;
 
 import com.codecool.photobox_backend.controller.dtos.image.ImageNamesDTO;
 import com.codecool.photobox_backend.controller.dtos.image.NewImageDTO;
-import com.codecool.photobox_backend.sevice.daos.ImageDAO;
+import com.codecool.photobox_backend.repository.ImageDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

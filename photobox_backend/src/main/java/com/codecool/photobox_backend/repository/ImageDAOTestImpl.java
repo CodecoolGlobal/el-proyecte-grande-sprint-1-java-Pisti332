@@ -1,10 +1,10 @@
-package com.codecool.photobox_backend.sevice.daos;
+package com.codecool.photobox_backend.repository;
 
 import com.codecool.photobox_backend.controller.dtos.image.ImageNamesDTO;
 import com.codecool.photobox_backend.controller.dtos.image.NewImageDTO;
-import com.codecool.photobox_backend.sevice.FoldersFilesReader;
-import com.codecool.photobox_backend.sevice.ImageConverter;
-import com.codecool.photobox_backend.sevice.ImageWriter;
+import com.codecool.photobox_backend.service.FoldersFilesReader;
+import com.codecool.photobox_backend.service.ImageConverter;
+import com.codecool.photobox_backend.service.ImageWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class ImageDAOTestImpl implements ImageDAO{
     private ImageConverter imageConverter;
     private ImageWriter imageWriter;
     private FoldersFilesReader foldersFilesReader;
-    private final String imagesFolderPath = ImageDAO.IMAGES_FOLDER_PATH;
+    private final String imagesFolderPath = IMAGES_FOLDER_PATH;
     @Autowired
     public ImageDAOTestImpl(FoldersFilesReader foldersFilesReader, ImageConverter imageConverter, ImageWriter imageWriter) {
         this.foldersFilesReader = foldersFilesReader;
