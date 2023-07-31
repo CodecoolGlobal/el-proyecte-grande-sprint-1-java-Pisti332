@@ -32,8 +32,7 @@ public class UserController {
 
     @PostMapping("signin")
     public boolean signIn(@RequestBody UserDTO userDTO) {
-        //todo
-        return false;
+        return userService.signInUser(userDTO);
     }
 
     @PutMapping("user/{id}")
