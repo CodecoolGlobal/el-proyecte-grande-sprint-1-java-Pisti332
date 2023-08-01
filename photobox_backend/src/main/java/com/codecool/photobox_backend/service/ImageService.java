@@ -5,7 +5,6 @@ import com.codecool.photobox_backend.model.Image;
 import com.codecool.photobox_backend.model.User;
 import com.codecool.photobox_backend.repository.ImageRepository;
 import com.codecool.photobox_backend.repository.UserRepository;
-import com.codecool.photobox_backend.service.utility.FoldersFilesReader;
 import com.codecool.photobox_backend.service.utility.ImageConverter;
 import com.codecool.photobox_backend.service.utility.ImageWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,25 +20,22 @@ public class ImageService {
     private ImageRepository imageRepository;
     private ImageConverter imageConverter;
     private ImageWriter imageWriter;
-    private FoldersFilesReader foldersFilesReader;
     private UserRepository userRepository;
 
     @Autowired
     public ImageService(ImageRepository imageRepository,
                         ImageConverter imageConverter,
                         ImageWriter imageWriter,
-                        FoldersFilesReader foldersFilesReader,
                         UserRepository userRepository) {
         this.imageRepository = imageRepository;
         this.imageConverter = imageConverter;
         this.imageWriter = imageWriter;
-        this.foldersFilesReader = foldersFilesReader;
         this.userRepository = userRepository;
     }
 
-    public List<String> getAllImageNames() {
-        return foldersFilesReader.readFileNames(ImageRepository.IMAGES_FOLDER_PATH);
-//        return imageRepository.findAll();
+    public List<Image> getImagesWithLimit(int limit) {
+//        return foldersFilesReader.readFileNames(ImageRepository.IMAGES_FOLDER_PATH);
+        return imageRepository.getImagesWithLimit(limit);
     }
 
     public void uploadImage(ImageDTO imageDTO, Long userId) throws IOException {
@@ -51,8 +47,7 @@ public class ImageService {
                     ImageRepository.IMAGES_FOLDER_PATH,
                     imageDTO.format());
             Image imageToSave = Image.builder()
-                    .name(imageDTO.imageName())
-                    .path(ImageRepository.IMAGES_FOLDER_PATH)
+                    .name(imageDTO.imageName() + "." + imageDTO.format())
                     .user(user.get())
                     .build();
             imageRepository.save(imageToSave);
