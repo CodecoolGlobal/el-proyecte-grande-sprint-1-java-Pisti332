@@ -28,8 +28,11 @@ public class UserService {
         userRepository.save(userToSave);
     }
 
-    public boolean signInUser(UserDTO userDTO) {
+    public User signInUser(UserDTO userDTO) {
         User user = userRepository.findByName(userDTO.username());
-        return user != null && Objects.equals(user.getPassword(), userDTO.password());
+        if (user != null && Objects.equals(user.getPassword(), userDTO.password())) {
+            return user;
+        }
+        return null;
     }
 }
