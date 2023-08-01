@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -27,5 +28,6 @@ public class Image {
     private String name;
     @ManyToOne
     private User user;
-//    private Set<Comment> comments;
+    @OneToMany(mappedBy = "image")
+    private Set<Comment> comments;
 }
