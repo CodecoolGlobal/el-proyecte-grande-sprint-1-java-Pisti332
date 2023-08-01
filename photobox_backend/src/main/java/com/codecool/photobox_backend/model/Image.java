@@ -1,5 +1,6 @@
 package com.codecool.photobox_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,10 +21,10 @@ import java.util.UUID;
 )
 public class Image {
     @Id
+    @JsonIgnore
     @GeneratedValue()
     private UUID id;
     private String name;
-    private String path;
     @ManyToOne
     private User user;
 //    private Set<Comment> comments;
