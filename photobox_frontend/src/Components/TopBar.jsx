@@ -68,7 +68,7 @@ export default function TopBar({ user }) {
                             sx={{ alignItems: 'center' }}
                         >
                             <Typography variant='b1'>
-                                {user.userName}
+                                {user.name}
                             </Typography>
                             <Avatar
                                 alt='User avatar'

@@ -53,7 +53,7 @@ export default function Sidebar({ setUser, user }) {
         });
         setIsLoginOpen(false);
         setIsRegister(false);
-        setUser({userName: formJson.username});
+        setUser(formJson);
         setIsSuccesboxOpen(true);
         setIsLogoutDisabled(false);
     }
@@ -72,7 +72,7 @@ export default function Sidebar({ setUser, user }) {
         });
         const response = await request.json();
         if (response) {
-            setUser({ ...user, userName: formJson.username });
+            setUser(response);
             setIsLoginOpen(false);
             setIsRegister(false);
             setIsSuccesboxOpen(true);
@@ -103,30 +103,32 @@ export default function Sidebar({ setUser, user }) {
         reader.onload = () => resolve(reader.result);
         reader.onerror = reject;
     });
-    const sendImage = async(event) => {
+    const sendImage = async (event) => {
         try {
             const file = event.target.files[0];
             const name = event.target.files[0].name;
             const base64Image = await toBase64(file);
             console.log(base64Image);
-            const base64Split = base64Image.split(",")[1];
-            const format = base64Image.substring(base64Image.indexOf("/") + 1, base64Image.indexOf(";"));
+            const base64Split = base64Image.split(',')[1];
+            const format = base64Image.substring(
+                base64Image.indexOf('/') + 1,
+                base64Image.indexOf(';'),
+            );
             console.log(name);
-            fetch("/api/images", {
-                "method": "POST",
-                "headers": {
-                    "Content-Type": "application/json"
+            fetch(`/api/images/${user.id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-                "body": JSON.stringify({
-                    "imageName": name,
-                    "username": "Pisti",
-                    "imageData": base64Split,
-                    "format": format
-                })
-            })
-        }
-        catch(e) {
-            
+                body: JSON.stringify({
+                    imageName: name,
+                    userName: user.name,
+                    imageData: base64Split,
+                    format: format,
+                }),
+            });
+        } catch (e) {
+            console.error(e);
         }
     };
 
