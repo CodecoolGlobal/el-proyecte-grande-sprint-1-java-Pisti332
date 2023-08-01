@@ -1,4 +1,5 @@
-package com.codecool.photobox_backend.service;
+package com.codecool.photobox_backend.service.utility;
+
 
 import org.springframework.stereotype.Service;
 
