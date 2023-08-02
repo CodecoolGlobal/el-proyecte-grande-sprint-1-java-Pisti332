@@ -20,12 +20,13 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public void registerUser(UserDTO userDTO) {
+    public User registerUser(UserDTO userDTO) {
         User userToSave = new User();
         userToSave.setName(userDTO.username());
         userToSave.setEmail(userDTO.email());
         userToSave.setPassword(userDTO.password());
         userRepository.save(userToSave);
+        return userToSave;
     }
 
     public User signInUser(UserDTO userDTO) {
@@ -33,6 +34,6 @@ public class UserService {
         if (user != null && Objects.equals(user.getPassword(), userDTO.password())) {
             return user;
         }
-        return null;
+        return new User();
     }
 }
