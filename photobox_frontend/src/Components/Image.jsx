@@ -5,23 +5,22 @@ import {
     Typography,
 } from '@mui/material';
 
+
 const Picture = ({ picture }) => {
     return (
         <>
             <Card sx={{ width: '80vw', marginRight: '20px', marginTop: '10px' }}>
                 <CardMedia
                     sx={{ height: '60vh' }}
-                    image={picture.img}
-                    title='green iguana'
+                    image={`/img/${picture}`}
+                    title={picture}
                 />
                 <CardContent>
                     <Typography gutterBottom variant='h5' component='div'>
-                        Lizard
+                        {picture}
                     </Typography>
                     <Typography variant='body2' color='text.secondary'>
-                        Lizards are a widespread group of squamate reptiles,
-                        with over 6,000 species, ranging across all continents
-                        except Antarctica
+                        Todo...
                     </Typography>
                 </CardContent>
             </Card>
