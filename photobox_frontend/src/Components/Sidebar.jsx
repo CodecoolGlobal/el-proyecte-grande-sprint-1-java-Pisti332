@@ -187,6 +187,7 @@ export default function Sidebar({ setUser, user }) {
                                     </ListItemIcon>
                                     <ListItemText primary='Upload image' />
                                     <input
+                                        id='fileInput'
                                         type='file'
                                         hidden
                                         accept='.png,.jpeg,.jpg'
@@ -402,6 +403,7 @@ export default function Sidebar({ setUser, user }) {
                 setIsLoginOpen={setIsLoginOpen}
                 handleLogOut={handleLogOut}
                 isLogoutDisabled={isLogoutDisabled}
+                user={user}
             />
         </>
     );
