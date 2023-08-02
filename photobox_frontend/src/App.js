@@ -11,7 +11,7 @@ function App() {
     const [isFeed, setIsFeed] = useState(true);
     const [picture, setPicture] = useState(null);
     const [comments, setComments] = useState([]);
-    const [user, setUser] = useState({ userName: 'Please log in...' });
+    const [user, setUser] = useState({ name: 'Please log in...' });
 
     const handleSubmit = (event) => {
         event.preventDefault();
