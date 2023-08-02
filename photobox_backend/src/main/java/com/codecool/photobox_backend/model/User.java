@@ -14,7 +14,7 @@ import lombok.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long Id;
+    private Long id;
     @Column(unique = true)
     private String name;
     @JsonIgnore
