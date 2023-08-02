@@ -47,7 +47,7 @@ public class ImageService {
                     ImageRepository.IMAGES_FOLDER_PATH,
                     imageDTO.format());
             Image imageToSave = Image.builder()
-                    .name(imageDTO.imageName() + "." + imageDTO.format())
+                    .name(imageDTO.imageName())
                     .user(user.get())
                     .build();
             imageRepository.save(imageToSave);
