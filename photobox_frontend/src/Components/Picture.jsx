@@ -11,9 +11,9 @@ const Picture = ({ picture }) => {
         <>
             <Card sx={{ width: '80vw', marginRight: '20px', marginTop: '10px' }}>
                 <CardMedia
-                    sx={{ height: '60vh' }}
                     image={`/img/${picture}`}
                     title={picture}
+                    component='img'
                 />
                 <CardContent>
                     <Typography gutterBottom variant='h5' component='div'>
