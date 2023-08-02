@@ -9,15 +9,14 @@ import com.codecool.photobox_backend.repository.ImageRepository;
 import com.codecool.photobox_backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 @Service
 public class CommentService {
-  private CommentRepository commentRepository;
-  private ImageRepository imageRepository;
-  private UserRepository userRepository;
+  private final CommentRepository commentRepository;
+  private final ImageRepository imageRepository;
+  private final UserRepository userRepository;
 
   public CommentService(CommentRepository commentRepository, ImageRepository imageRepository, UserRepository userRepository) {
     this.commentRepository = commentRepository;
