@@ -53,4 +53,8 @@ public class ImageService {
             imageRepository.save(imageToSave);
         }
     }
+
+  public Image getImageByName(String name) {
+        return imageRepository.getImageByName(name);
+  }
 }

@@ -22,6 +22,11 @@ public class ImageController {
     public List<Image> getAllImages(@PathVariable int limit) {
         return imageService.getImagesWithLimit(limit);
     }
+
+    @GetMapping("image/{imageName}")
+    public Image getImageByName(@PathVariable String imageName){
+        return imageService.getImageByName(imageName);
+    }
     @PostMapping("{userId}")
     public void uploadImage(@RequestBody ImageDTO imageDTO, @PathVariable Long userId) throws IOException {
         imageService.uploadImage(imageDTO, userId);
