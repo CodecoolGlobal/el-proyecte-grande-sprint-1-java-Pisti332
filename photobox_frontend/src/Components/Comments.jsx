@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Loading from './Loading/Loading';
 import {
     Avatar,
     IconButton,
@@ -10,9 +11,62 @@ import {
     ListItemText,
     Typography,
 } from '@mui/material';
-import { Send } from '@mui/icons-material';
 
-export default function Comments({ comments, handleSubmit }) {
+export default function Comments({ imageName, userId }) {
+
+    const [image, setImage] = useState(null);
+    const [comments, setComments] = useState([]);
+    const [imageLoading, setImageLoading] = useState(true);
+
+    const fetchImage = (imageName) => {
+        return fetch(`/api/images/image/${imageName}`).then((res) => res.json());
+    };
+
+    const fetchComments = (imageId, userId) => {
+        return fetch(`/api/comments/${imageId}/${userId}`).then((res) => res.json());
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const formJson = Object.fromEntries(formData.entries());
+        console.log(formJson)
+
+        fetch('/api/comments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formJson),
+        })
+
+        /*setComments(...comments, {
+            id: 1,
+            imageName: event.target.id,
+            user: user.userName,
+            comment: formJson.comment,
+        });*/
+    };
+
+    useEffect(() => {
+        //setTourLoading(true);
+        fetchImage(imageName)
+            .then((image) => {
+                fetchComments(image.imageId, userId)
+                    .then((comments) => {
+                        setComments(comments);
+                        setImage(image);
+                        setImageLoading(false);
+                    });
+            });
+    }, []);
+
+
+    if (imageLoading) {
+        return <Loading />;
+    }
+
     return (
         <>
             <List>
