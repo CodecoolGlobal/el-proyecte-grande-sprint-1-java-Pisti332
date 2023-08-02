@@ -21,7 +21,7 @@ import {
     Typography,
     styled,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './sidebar.css';
 import SpeedDialMenu from './SpeedDialMenu';
 import { LinkedCamera, Login, Upload } from '@mui/icons-material';
@@ -39,6 +39,13 @@ export default function Sidebar({ setUser, user }) {
     const [isSuccesboxOpen, setIsSuccesboxOpen] = useState(false);
     const [isLogoutDisabled, setIsLogoutDisabled] = useState(true);
 
+    useEffect(() => {
+        if (localStorage.getItem('user')) {
+            setUser(JSON.parse(localStorage.getItem('user')));
+            setIsLogoutDisabled(false);
+        }
+    }, [setUser]);
+
     async function handleRegisterUser(e) {
         e.preventDefault();
         const form = e.target;
@@ -55,6 +62,10 @@ export default function Sidebar({ setUser, user }) {
         setIsLoginOpen(false);
         setIsRegister(false);
         setUser(response);
+        localStorage.setItem(
+            'user',
+            JSON.stringify({ name: response.name, id: response.id }),
+        );
         setIsSuccesboxOpen(true);
         setIsLogoutDisabled(false);
     }
@@ -76,6 +87,10 @@ export default function Sidebar({ setUser, user }) {
             setUser(response);
             setIsLoginOpen(false);
             setIsRegister(false);
+            localStorage.setItem(
+                'user',
+                JSON.stringify({ name: response.name, id: response.id }),
+            );
             setIsSuccesboxOpen(true);
             setIsLogoutDisabled(false);
         } else {
@@ -93,18 +108,22 @@ export default function Sidebar({ setUser, user }) {
     };
 
     function handleLogOut() {
-        setUser({userName: 'Please log in...'});
+        setUser({ name: 'Please log in...' });
         setIsSuccesboxOpen(true);
         setIsLogoutDisabled(true);
+        localStorage.clear();
     }
 
-    const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-    });
+    const toBase64 = (file) =>
+        new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+        });
+
     const sendImage = async (event) => {
+        event.preventDefault();
         try {
             const file = event.target.files[0];
             const name = event.target.files[0].name;
@@ -133,13 +152,19 @@ export default function Sidebar({ setUser, user }) {
 
     return (
         <>
-            <Box flex={1} p={2} sx={{display: {
-                                    xs: 'none',
-                                    sm: 'none',
-                                    md: 'none',
-                                    lg: 'block',
-                                    xl: 'block',
-                                }}}>
+            <Box
+                flex={1}
+                p={2}
+                sx={{
+                    display: {
+                        xs: 'none',
+                        sm: 'none',
+                        md: 'none',
+                        lg: 'block',
+                        xl: 'block',
+                    },
+                }}
+            >
                 <Box position='fixed'>
                     <Paper elevation={3}>
                         <List>
@@ -161,9 +186,9 @@ export default function Sidebar({ setUser, user }) {
                                     </ListItemIcon>
                                     <ListItemText primary='Upload image' />
                                     <input
-                                        type="file"
+                                        type='file'
                                         hidden
-                                        accept=".png,.jpeg,.jpg"
+                                        accept='.png,.jpeg,.jpg'
                                         onChange={(event) => sendImage(event)}
                                     />
                                 </ListItemButton>
@@ -177,7 +202,11 @@ export default function Sidebar({ setUser, user }) {
                                 </ListItemButton>
                             </ListItem>
                             <ListItem disablePadding>
-                                <ListItemButton component='button' onClick={handleLogOut} disabled={isLogoutDisabled}>
+                                <ListItemButton
+                                    component='button'
+                                    onClick={handleLogOut}
+                                    disabled={isLogoutDisabled}
+                                >
                                     <ListItemIcon>
                                         <MeetingRoomIcon />
                                     </ListItemIcon>
@@ -368,7 +397,11 @@ export default function Sidebar({ setUser, user }) {
                     Successful action.
                 </Alert>
             </Snackbar>
-            <SpeedDialMenu setIsLoginOpen={setIsLoginOpen} handleLogOut={handleLogOut} isLogoutDisabled={isLogoutDisabled}/>
+            <SpeedDialMenu
+                setIsLoginOpen={setIsLoginOpen}
+                handleLogOut={handleLogOut}
+                isLogoutDisabled={isLogoutDisabled}
+            />
         </>
     );
 }
