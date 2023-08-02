@@ -39,21 +39,22 @@ export default function Sidebar({ setUser, user }) {
     const [isSuccesboxOpen, setIsSuccesboxOpen] = useState(false);
     const [isLogoutDisabled, setIsLogoutDisabled] = useState(true);
 
-    function handleRegisterUser(e) {
+    async function handleRegisterUser(e) {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
         const formJson = Object.fromEntries(formData.entries());
-        fetch('/api/auth/signup', {
+        const request = await fetch('/api/auth/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formJson),
         });
+        const response = await request.json();
         setIsLoginOpen(false);
         setIsRegister(false);
-        setUser(formJson);
+        setUser(response);
         setIsSuccesboxOpen(true);
         setIsLogoutDisabled(false);
     }
@@ -71,7 +72,7 @@ export default function Sidebar({ setUser, user }) {
             body: JSON.stringify(formJson),
         });
         const response = await request.json();
-        if (response) {
+        if (response.name) {
             setUser(response);
             setIsLoginOpen(false);
             setIsRegister(false);
@@ -114,7 +115,6 @@ export default function Sidebar({ setUser, user }) {
                 base64Image.indexOf('/') + 1,
                 base64Image.indexOf(';'),
             );
-            console.log(name);
             fetch(`/api/images/${user.id}`, {
                 method: 'POST',
                 headers: {
