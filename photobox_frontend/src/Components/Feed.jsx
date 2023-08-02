@@ -7,7 +7,7 @@ import Loading from './Loading/Loading';
 import { Box, IconButton, ListSubheader } from '@mui/material';
 import { Comment } from '@mui/icons-material';
 
-const IMG_PATH = "\\img\\";
+const IMG_PATH = '\\img\\';
 
 const Feed = ({ showComments }) => {
     const [loading, setLoading] = useState(true);
@@ -31,9 +31,12 @@ const Feed = ({ showComments }) => {
         };
     }, []);
 
-
     if (loading) {
-        return <Loading />;
+        return (
+            <Box display='flex' justifyContent='center' alignItems='center' width="80vw" height="80vh">
+                <Loading />
+            </Box>
+        );
     }
 
     return (
