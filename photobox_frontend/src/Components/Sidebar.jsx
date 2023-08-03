@@ -128,7 +128,6 @@ export default function Sidebar({ setUser, user }) {
             const file = event.target.files[0];
             const name = event.target.files[0].name;
             const base64Image = await toBase64(file);
-            console.log(base64Image);
             const base64Split = base64Image.split(',')[1];
             const format = base64Image.substring(
                 base64Image.indexOf('/') + 1,
@@ -140,7 +139,7 @@ export default function Sidebar({ setUser, user }) {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    imageName: name,
+                    imageName: encodeURI(name),
                     userName: user.name,
                     imageData: base64Split,
                     format: format,
