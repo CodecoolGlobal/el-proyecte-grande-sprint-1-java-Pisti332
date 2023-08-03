@@ -31,7 +31,7 @@ const Feed = ({ showComments }) => {
         };
     }, []);
     const theme = useTheme();
-    const matchDownMd = useMediaQuery(theme.breakpoints.down('sm'));
+    const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
 
     if (loading) {
         return (
@@ -43,7 +43,7 @@ const Feed = ({ showComments }) => {
 
 
     return (
-        <Box maxWidth='80vw'>
+        <Box maxWidth={matchDownMd ? '100vw' : '80vw'}>
             <ImageList cols={matchDownMd ? 1 : 2 } gap={30}>
                 {imagesData.map((item) => (
                     <ImageListItem key={item.name}>
