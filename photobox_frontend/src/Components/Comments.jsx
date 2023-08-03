@@ -4,15 +4,18 @@ import TextField from '@mui/material/TextField';
 import Loading from './Loading/Loading';
 import {
     Avatar,
+    Card,
+    CardContent,
+    CardMedia,
     IconButton,
     List,
     ListItem,
     ListItemAvatar,
     ListItemText,
-    Typography,
+    Typography
 } from '@mui/material';
 
-export default function Comments({ imageName, userId }) {
+export default function Comments({ imageName, user }) {
 
     const [image, setImage] = useState(null);
     const [comments, setComments] = useState([]);
@@ -21,46 +24,50 @@ export default function Comments({ imageName, userId }) {
     const fetchImage = (imageName) => {
         return fetch(`/api/images/image/${imageName}`).then((res) => res.json());
     };
-
-    const fetchComments = (imageId, userId) => {
-        return fetch(`/api/comments/${imageId}/${userId}`).then((res) => res.json());
+    const fetchComments = (imageId) => {
+        return fetch(`/api/${imageId}`).then((res) => res.json());
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const form = event.target;
         const formData = new FormData(form);
-        const formJson = Object.fromEntries(formData.entries());
-        console.log(formJson)
+        const comment = Object.fromEntries(formData.entries());
+        const formJson = {
+            content: comment.comment,
+            userId: user.id,
+            imageId: image.id
+        }
+        const commentToAdd =
+        {
+            content: comment.comment,
+            id: image.id,
+            image: image,
+            user: user
+        }
 
-        fetch('/api/comments', {
+
+        setComments([...comments,commentToAdd])
+
+        fetch('/api/comment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formJson),
         })
-
-        /*setComments(...comments, {
-            id: 1,
-            imageName: event.target.id,
-            user: user.userName,
-            comment: formJson.comment,
-        });*/
     };
 
     useEffect(() => {
-        //setTourLoading(true);
-        fetchImage(imageName)
-            .then((image) => {
-                fetchComments(image.imageId, userId)
-                    .then((comments) => {
-                        setComments(comments);
-                        setImage(image);
-                        setImageLoading(false);
-                    });
-            });
-    }, []);
+        fetchImage(imageName).then((image) => {
+            setImage(image);
+            fetchComments(image.id).then((comments) => {
+                console.log(comments);
+                setComments(comments);
+                setImageLoading(false);
+            })
+        })
+    }, [imageName]);
 
 
     if (imageLoading) {
@@ -68,7 +75,23 @@ export default function Comments({ imageName, userId }) {
     }
 
     return (
-        <>
+        <Box>
+            <Card sx={{ width: '80vw', marginRight: '20px', marginTop: '10px' }}>
+
+                <CardMedia
+                    sx={{ height: '60vh' }}
+                    image={`/img/${image.name}`}
+                    title={image.name}
+                />
+                <CardContent>
+                    <Typography gutterBottom variant='h5' component='div'>
+                        {image.name}
+                    </Typography>
+                    <Typography variant='body2' color='text.secondary'>
+                        Todo...
+                    </Typography>
+                </CardContent>
+            </Card>
             <List>
                 <Box>
                     {comments.map((item) => (
@@ -78,7 +101,7 @@ export default function Comments({ imageName, userId }) {
                                     <Avatar alt='Remy Sharp' />
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={item.user}
+                                    primary={item.user.name}
                                     secondary={
                                         <React.Fragment>
                                             <Typography
@@ -87,7 +110,7 @@ export default function Comments({ imageName, userId }) {
                                                 variant='body2'
                                                 color='text.primary'
                                             >
-                                                {item.comment}
+                                                {item.content}
                                             </Typography>
                                         </React.Fragment>
                                     }
@@ -110,6 +133,6 @@ export default function Comments({ imageName, userId }) {
                 <IconButton type='submit' className='button'>
                 </IconButton>
             </form>
-        </>
+        </Box>
     );
 }
