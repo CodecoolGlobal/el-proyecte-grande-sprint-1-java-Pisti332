@@ -12,17 +12,18 @@ import {
     ListItem,
     ListItemAvatar,
     ListItemText,
-    Typography
+    Typography,
 } from '@mui/material';
 
-export default function Comments({ imageName, user }) {
-
+export default function Comments({ imageName, user, isUploadDisabled }) {
     const [image, setImage] = useState(null);
     const [comments, setComments] = useState([]);
     const [imageLoading, setImageLoading] = useState(true);
 
     const fetchImage = (imageName) => {
-        return fetch(`/api/images/image/${imageName}`).then((res) => res.json());
+        return fetch(`/api/images/image/${imageName}`).then((res) =>
+            res.json(),
+        );
     };
     const fetchComments = (imageId) => {
         return fetch(`/api/${imageId}`).then((res) => res.json());
@@ -36,18 +37,16 @@ export default function Comments({ imageName, user }) {
         const formJson = {
             content: comment.comment,
             userId: user.id,
-            imageId: image.id
-        }
-        const commentToAdd =
-        {
+            imageId: image.id,
+        };
+        const commentToAdd = {
             content: comment.comment,
             id: image.id,
             image: image,
-            user: user
-        }
+            user: user,
+        };
 
-
-        setComments([...comments,commentToAdd])
+        setComments([...comments, commentToAdd]);
 
         fetch('/api/comment', {
             method: 'POST',
@@ -55,7 +54,7 @@ export default function Comments({ imageName, user }) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formJson),
-        })
+        });
     };
 
     useEffect(() => {
@@ -65,10 +64,9 @@ export default function Comments({ imageName, user }) {
                 console.log(comments);
                 setComments(comments);
                 setImageLoading(false);
-            })
-        })
+            });
+        });
     }, [imageName]);
-
 
     if (imageLoading) {
         return <Loading />;
@@ -76,8 +74,9 @@ export default function Comments({ imageName, user }) {
 
     return (
         <Box>
-            <Card sx={{ width: '80vw', marginRight: '20px', marginTop: '10px' }}>
-
+            <Card
+                sx={{ width: '80vw', marginRight: '20px', marginTop: '10px' }}
+            >
                 <CardMedia
                     sx={{ height: '60vh' }}
                     image={`/img/${image.name}`}
@@ -122,6 +121,7 @@ export default function Comments({ imageName, user }) {
             </List>
             <form className='container' onSubmit={handleSubmit}>
                 <TextField
+                    disabled={isUploadDisabled}
                     name='comment'
                     rows={4}
                     cols={40}
@@ -130,8 +130,7 @@ export default function Comments({ imageName, user }) {
                     variant='outlined'
                 />
                 <Typography className='divider' />
-                <IconButton type='submit' className='button'>
-                </IconButton>
+                <IconButton type='submit' className='button'></IconButton>
             </form>
         </Box>
     );

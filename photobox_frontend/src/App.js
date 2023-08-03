@@ -10,7 +10,7 @@ import { createTheme } from '@mui/material/styles';
 function App() {
     const [isFeed, setIsFeed] = useState(true);
     const [imageName, setImageName] = useState(null);
-    
+    const [isUploadDisabled, setIsUploadDisabled] = useState(true);
     const [user, setUser] = useState({ name: 'Please log in...' });
 
     const showComments = (event) => {
@@ -20,10 +20,10 @@ function App() {
     const theme = createTheme({
         palette: {
             primary: {
-                main: '#dbc499'
+                main: '#dbc499',
             },
             secondary: {
-                main: '#daa29e'
+                main: '#daa29e',
             },
         },
     });
@@ -38,23 +38,31 @@ function App() {
                         spacing={2}
                         justifyContent='space-between'
                     >
-                        <Sidebar color="primary" user={user} setUser={setUser} />
+                        <Sidebar
+                            color='primary'
+                            user={user}
+                            setUser={setUser}
+                            isUploadDisabled={isUploadDisabled}
+                            setIsUploadDisabled={setIsUploadDisabled}
+                        />
                         <Feed showComments={showComments} />
                     </Stack>
                 </>
             ) : (
                 <>
                     <TopBar user={user} />
-                    <Stack
-                        direction='row'
-                        spacing={2}
-                        justifyContent='center'
-                    >
-                        <Sidebar user={user} setUser={setUser} />
+                    <Stack direction='row' spacing={2} justifyContent='center'>
+                        <Sidebar
+                            user={user}
+                            setUser={setUser}
+                            isUploadDisabled={isUploadDisabled}
+                            setIsUploadDisabled={setIsUploadDisabled}
+                        />
                         <Box>
                             <Comments
                                 imageName={imageName}
                                 user={user}
+                                isUploadDisabled={isUploadDisabled}
                             />
                         </Box>
                     </Stack>

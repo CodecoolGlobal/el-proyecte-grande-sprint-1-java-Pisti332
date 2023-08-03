@@ -32,7 +32,7 @@ const StyledModal = styled(Modal)({
     justifyContent: 'center',
 });
 
-export default function Sidebar({ setUser, user }) {
+export default function Sidebar({ setUser, user, isUploadDisabled, setIsUploadDisabled }) {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
     const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -43,8 +43,9 @@ export default function Sidebar({ setUser, user }) {
         if (localStorage.getItem('user')) {
             setUser(JSON.parse(localStorage.getItem('user')));
             setIsLogoutDisabled(false);
+            setIsUploadDisabled(false);
         }
-    }, [setUser]);
+    }, [setIsUploadDisabled, setUser]);
 
     async function handleRegisterUser(e) {
         e.preventDefault();
@@ -68,6 +69,7 @@ export default function Sidebar({ setUser, user }) {
         );
         setIsSuccesboxOpen(true);
         setIsLogoutDisabled(false);
+        setIsUploadDisabled(false);
     }
 
     async function handleLoginUser(e) {
@@ -93,6 +95,7 @@ export default function Sidebar({ setUser, user }) {
             );
             setIsSuccesboxOpen(true);
             setIsLogoutDisabled(false);
+            setIsUploadDisabled(false);
         } else {
             setIsAlertOpen(true);
         }
@@ -111,6 +114,7 @@ export default function Sidebar({ setUser, user }) {
         setUser({ name: 'Please log in...' });
         setIsSuccesboxOpen(true);
         setIsLogoutDisabled(true);
+        setIsUploadDisabled(true);
         localStorage.clear();
     }
 
@@ -180,7 +184,7 @@ export default function Sidebar({ setUser, user }) {
                                 </ListItemButton>
                             </ListItem>
                             <ListItem disablePadding>
-                                <ListItemButton component='label'>
+                                <ListItemButton component='label' disabled={isUploadDisabled}>
                                     <ListItemIcon>
                                         <Upload />
                                     </ListItemIcon>

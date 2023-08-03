@@ -4,7 +4,7 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Loading from './Loading/Loading';
-import { Box, IconButton, ListSubheader } from '@mui/material';
+import { Box, IconButton, ListSubheader, useMediaQuery, useTheme } from '@mui/material';
 import { Comment } from '@mui/icons-material';
 
 const IMG_PATH = '\\img\\';
@@ -30,6 +30,8 @@ const Feed = ({ showComments }) => {
             ignore = true;
         };
     }, []);
+    const theme = useTheme();
+    const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
 
     if (loading) {
         return (
@@ -39,15 +41,12 @@ const Feed = ({ showComments }) => {
         );
     }
 
+
     return (
-        <Box maxWidth='80vw'>
-            <ImageList cols={3} gap={30}>
-                <ImageListItem key='Subheader'>
-                    <ListSubheader component='div'>December</ListSubheader>
-                </ImageListItem>
+        <Box maxWidth={matchDownMd ? '93vw' : '80vw'}>
+            <ImageList cols={matchDownMd ? 1 : 2 } gap={30}>
                 {imagesData.map((item) => (
                     <ImageListItem key={item.name}>
-                        {console.log(IMG_PATH + item.name)}
                         <img
                             src={IMG_PATH + item.name}
                             alt={item.name}

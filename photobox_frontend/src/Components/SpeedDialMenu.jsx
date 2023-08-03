@@ -16,7 +16,9 @@ export default function SpeedDialMenu({
     const inputRef = useRef();
 
     const handleFileUploadClick = () => {
-        inputRef.current.click();
+        if (!isLogoutDisabled) {
+            inputRef.current.click();
+        }
     };
 
     const sendImage = async (event) => {
