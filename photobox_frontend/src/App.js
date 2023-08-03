@@ -9,7 +9,7 @@ import Comments from './Components/Comments';
 function App() {
     const [isFeed, setIsFeed] = useState(true);
     const [imageName, setImageName] = useState(null);
-    
+    const [isUploadDisabled, setIsUploadDisabled] = useState(true);
     const [user, setUser] = useState({ name: 'Please log in...' });
 
     const showComments = (event) => {
@@ -27,24 +27,27 @@ function App() {
                         spacing={2}
                         justifyContent='space-between'
                     >
-                        <Sidebar user={user} setUser={setUser} />
+                        <Sidebar
+                            user={user}
+                            setUser={setUser}
+                            isUploadDisabled={isUploadDisabled}
+                            setIsUploadDisabled={setIsUploadDisabled}
+                        />
                         <Feed showComments={showComments} />
                     </Stack>
                 </>
             ) : (
                 <>
                     <TopBar user={user} />
-                    <Stack
-                        direction='row'
-                        spacing={2}
-                        justifyContent='center'
-                    >
-                        <Sidebar user={user} setUser={setUser} />
+                    <Stack direction='row' spacing={2} justifyContent='center'>
+                        <Sidebar
+                            user={user}
+                            setUser={setUser}
+                            isUploadDisabled={isUploadDisabled}
+                            setIsUploadDisabled={setIsUploadDisabled}
+                        />
                         <Box>
-                            <Comments
-                                imageName={imageName}
-                                user={user}
-                            />
+                            <Comments imageName={imageName} user={user} isUploadDisabled={isUploadDisabled} />
                         </Box>
                     </Stack>
                 </>

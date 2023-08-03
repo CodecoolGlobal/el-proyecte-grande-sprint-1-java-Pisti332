@@ -32,13 +32,12 @@ const StyledModal = styled(Modal)({
     justifyContent: 'center',
 });
 
-export default function Sidebar({ setUser, user }) {
+export default function Sidebar({ setUser, user, isUploadDisabled, setIsUploadDisabled }) {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
     const [isAlertOpen, setIsAlertOpen] = useState(false);
     const [isSuccesboxOpen, setIsSuccesboxOpen] = useState(false);
     const [isLogoutDisabled, setIsLogoutDisabled] = useState(true);
-    const [isUploadDisabled, setIsUploadDisabled] = useState(true);
 
     useEffect(() => {
         if (localStorage.getItem('user')) {
@@ -46,7 +45,7 @@ export default function Sidebar({ setUser, user }) {
             setIsLogoutDisabled(false);
             setIsUploadDisabled(false);
         }
-    }, [setUser]);
+    }, [setIsUploadDisabled, setUser]);
 
     async function handleRegisterUser(e) {
         e.preventDefault();
