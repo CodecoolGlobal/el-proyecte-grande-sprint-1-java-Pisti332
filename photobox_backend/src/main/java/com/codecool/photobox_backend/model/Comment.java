@@ -23,4 +23,10 @@ public class Comment {
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name="image_id", referencedColumnName = "id")
   private Image image;
+
+  public Comment(String content, User user, Image image) {
+    this.content = content;
+    this.user = user;
+    this.image = image;
+  }
 }

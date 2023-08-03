@@ -1,20 +1,97 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Loading from './Loading/Loading';
 import {
     Avatar,
+    Card,
+    CardContent,
+    CardMedia,
     IconButton,
     List,
     ListItem,
     ListItemAvatar,
     ListItemText,
-    Typography,
+    Typography
 } from '@mui/material';
-import { Send } from '@mui/icons-material';
 
-export default function Comments({ comments, handleSubmit }) {
+export default function Comments({ imageName, user }) {
+
+    const [image, setImage] = useState(null);
+    const [comments, setComments] = useState([]);
+    const [imageLoading, setImageLoading] = useState(true);
+
+    const fetchImage = (imageName) => {
+        return fetch(`/api/images/image/${imageName}`).then((res) => res.json());
+    };
+    const fetchComments = (imageId) => {
+        return fetch(`/api/${imageId}`).then((res) => res.json());
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const comment = Object.fromEntries(formData.entries());
+        const formJson = {
+            content: comment.comment,
+            userId: user.id,
+            imageId: image.id
+        }
+        const commentToAdd =
+        {
+            content: comment.comment,
+            id: image.id,
+            image: image,
+            user: user
+        }
+
+
+        setComments([...comments,commentToAdd])
+
+        fetch('/api/comment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formJson),
+        })
+    };
+
+    useEffect(() => {
+        fetchImage(imageName).then((image) => {
+            setImage(image);
+            fetchComments(image.id).then((comments) => {
+                console.log(comments);
+                setComments(comments);
+                setImageLoading(false);
+            })
+        })
+    }, [imageName]);
+
+
+    if (imageLoading) {
+        return <Loading />;
+    }
+
     return (
-        <>
+        <Box>
+            <Card sx={{ width: '80vw', marginRight: '20px', marginTop: '10px' }}>
+
+                <CardMedia
+                    sx={{ height: '60vh' }}
+                    image={`/img/${image.name}`}
+                    title={image.name}
+                />
+                <CardContent>
+                    <Typography gutterBottom variant='h5' component='div'>
+                        {image.name}
+                    </Typography>
+                    <Typography variant='body2' color='text.secondary'>
+                        Todo...
+                    </Typography>
+                </CardContent>
+            </Card>
             <List>
                 <Box>
                     {comments.map((item) => (
@@ -24,7 +101,7 @@ export default function Comments({ comments, handleSubmit }) {
                                     <Avatar alt='Remy Sharp' />
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={item.user}
+                                    primary={item.user.name}
                                     secondary={
                                         <React.Fragment>
                                             <Typography
@@ -33,7 +110,7 @@ export default function Comments({ comments, handleSubmit }) {
                                                 variant='body2'
                                                 color='text.primary'
                                             >
-                                                {item.comment}
+                                                {item.content}
                                             </Typography>
                                         </React.Fragment>
                                     }
@@ -56,6 +133,6 @@ export default function Comments({ comments, handleSubmit }) {
                 <IconButton type='submit' className='button'>
                 </IconButton>
             </form>
-        </>
+        </Box>
     );
 }
