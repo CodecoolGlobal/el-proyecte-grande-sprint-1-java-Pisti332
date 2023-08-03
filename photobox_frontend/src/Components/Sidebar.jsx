@@ -38,11 +38,13 @@ export default function Sidebar({ setUser, user }) {
     const [isAlertOpen, setIsAlertOpen] = useState(false);
     const [isSuccesboxOpen, setIsSuccesboxOpen] = useState(false);
     const [isLogoutDisabled, setIsLogoutDisabled] = useState(true);
+    const [isUploadDisabled, setIsUploadDisabled] = useState(true);
 
     useEffect(() => {
         if (localStorage.getItem('user')) {
             setUser(JSON.parse(localStorage.getItem('user')));
             setIsLogoutDisabled(false);
+            setIsUploadDisabled(false);
         }
     }, [setUser]);
 
@@ -68,6 +70,7 @@ export default function Sidebar({ setUser, user }) {
         );
         setIsSuccesboxOpen(true);
         setIsLogoutDisabled(false);
+        setIsUploadDisabled(false);
     }
 
     async function handleLoginUser(e) {
@@ -93,6 +96,7 @@ export default function Sidebar({ setUser, user }) {
             );
             setIsSuccesboxOpen(true);
             setIsLogoutDisabled(false);
+            setIsUploadDisabled(false);
         } else {
             setIsAlertOpen(true);
         }
@@ -111,6 +115,7 @@ export default function Sidebar({ setUser, user }) {
         setUser({ name: 'Please log in...' });
         setIsSuccesboxOpen(true);
         setIsLogoutDisabled(true);
+        setIsUploadDisabled(true);
         localStorage.clear();
     }
 
@@ -180,7 +185,7 @@ export default function Sidebar({ setUser, user }) {
                                 </ListItemButton>
                             </ListItem>
                             <ListItem disablePadding>
-                                <ListItemButton component='label'>
+                                <ListItemButton component='label' disabled={isUploadDisabled}>
                                     <ListItemIcon>
                                         <Upload />
                                     </ListItemIcon>

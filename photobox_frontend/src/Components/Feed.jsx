@@ -47,7 +47,6 @@ const Feed = ({ showComments }) => {
             <ImageList cols={matchDownMd ? 1 : 2 } gap={30}>
                 {imagesData.map((item) => (
                     <ImageListItem key={item.name}>
-                        {console.log(IMG_PATH + item.name)}
                         <img
                             src={IMG_PATH + item.name}
                             alt={item.name}
