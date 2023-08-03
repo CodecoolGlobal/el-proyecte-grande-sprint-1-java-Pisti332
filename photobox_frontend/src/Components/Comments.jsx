@@ -73,7 +73,7 @@ export default function Comments({ imageName, user, isUploadDisabled }) {
     }
 
     return (
-        <Box>
+        <Box mb='100px'>
             <Card
                 sx={{ width: '80vw', marginRight: '20px', marginTop: '10px' }}
             >
@@ -129,8 +129,6 @@ export default function Comments({ imageName, user, isUploadDisabled }) {
                     label='New comment'
                     variant='outlined'
                 />
-                <Typography className='divider' />
-                <IconButton type='submit' className='button'></IconButton>
             </form>
         </Box>
     );
