@@ -43,7 +43,7 @@ const Feed = ({ showComments }) => {
 
 
     return (
-        <Box maxWidth={matchDownMd ? '100vw' : '80vw'}>
+        <Box maxWidth={matchDownMd ? '93vw' : '80vw'}>
             <ImageList cols={matchDownMd ? 1 : 2 } gap={30}>
                 {imagesData.map((item) => (
                     <ImageListItem key={item.name}>
