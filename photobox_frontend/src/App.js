@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import './App.css';
-import { Box, Stack } from '@mui/material';
+import { Box, Stack, ThemeProvider } from '@mui/material';
 import TopBar from './Components/TopBar';
 import Sidebar from './Components/Sidebar';
 import Feed from './Components/Feed';
 import Comments from './Components/Comments';
+import { createTheme } from '@mui/material/styles';
 
 function App() {
     const [isFeed, setIsFeed] = useState(true);
@@ -16,9 +17,19 @@ function App() {
         setIsFeed(false);
         setImageName(event.currentTarget.id);
     };
+    const theme = createTheme({
+        palette: {
+            primary: {
+                main: '#dbc499',
+            },
+            secondary: {
+                main: '#daa29e',
+            },
+        },
+    });
 
     return (
-        <>
+        <ThemeProvider theme={theme}>
             {isFeed ? (
                 <>
                     <TopBar user={user} />
@@ -28,6 +39,7 @@ function App() {
                         justifyContent='space-between'
                     >
                         <Sidebar
+                            color='primary'
                             user={user}
                             setUser={setUser}
                             isUploadDisabled={isUploadDisabled}
@@ -47,12 +59,16 @@ function App() {
                             setIsUploadDisabled={setIsUploadDisabled}
                         />
                         <Box>
-                            <Comments imageName={imageName} user={user} isUploadDisabled={isUploadDisabled} />
+                            <Comments
+                                imageName={imageName}
+                                user={user}
+                                isUploadDisabled={isUploadDisabled}
+                            />
                         </Box>
                     </Stack>
                 </>
             )}
-        </>
+        </ThemeProvider>
     );
 }
 

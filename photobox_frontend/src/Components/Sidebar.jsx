@@ -156,7 +156,7 @@ export default function Sidebar({ setUser, user, isUploadDisabled, setIsUploadDi
 
     return (
         <>
-            <Box
+            <Box 
                 flex={1}
                 p={2}
                 sx={{
@@ -291,6 +291,7 @@ export default function Sidebar({ setUser, user, isUploadDisabled, setIsUploadDi
                                     </Button>
                                 </ButtonGroup>
                                 <Button
+                                    color='secondary'
                                     startIcon={<HowToRegIcon />}
                                     variant='outlined'
                                     sx={{ marginTop: '30px' }}
