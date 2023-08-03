@@ -10,7 +10,7 @@ import java.io.IOException;
 @Service
 public class ImageWriter {
     public void saveImageAsFile(BufferedImage bufferedImage, String name, String path, String format) throws IOException {
-        File outputfile = new File(path + "/" + name + "." + format);
+        File outputfile = new File(path + "//" + name);
         ImageIO.write(bufferedImage, format, outputfile);
     }
 }
