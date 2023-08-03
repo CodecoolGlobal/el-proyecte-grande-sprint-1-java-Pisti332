@@ -12,12 +12,17 @@ import java.util.UUID;
 
 @Repository
 public interface ImageRepository extends JpaRepository<Image, UUID> {
-    String IMAGES_FOLDER_PATH = System.getenv("IMAGES_FOLDER_PATH");
-    @Query(
-            nativeQuery = true,
-            value = "select * from images limit ?1"
-    )
-    List<Image> getImagesWithLimit(int limit);
+  String IMAGES_FOLDER_PATH = System.getenv("IMAGES_FOLDER_PATH");
 
+  @Query(
+          nativeQuery = true,
+          value = "select * from images limit ?1"
+  )
+  List<Image> getImagesWithLimit(int limit);
 
+  @Query(
+          nativeQuery = true,
+          value = "select * from images where name = ?1"
+  )
+  Image getImageByName(String name);
 }
