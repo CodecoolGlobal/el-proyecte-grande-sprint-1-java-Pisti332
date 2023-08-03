@@ -19,9 +19,9 @@ public class CommentController {
     this.commentService = commentService;
   }
 
-  @GetMapping("{user_id}/{image_id}")
-  public Set<Comment> getComments(@PathVariable Long user_id, @PathVariable UUID image_id) {
-    return commentService.getComments(user_id, image_id);
+  @GetMapping("{image_id}")
+  public Set<Comment> getComments(@PathVariable UUID image_id) {
+    return commentService.getComments(image_id);
   }
 
   @PostMapping("comment")

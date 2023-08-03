@@ -24,8 +24,8 @@ public class CommentService {
     this.userRepository = userRepository;
   }
 
-  public Set<Comment> getComments(Long userId, UUID imageId) {
-    return imageRepository.getById(imageId).getComments();
+  public Set<Comment> getComments(UUID imageId) {
+    return commentRepository.getAllByImageId(imageId);
   }
 
   public void addComment(CommentDTO comment) {
