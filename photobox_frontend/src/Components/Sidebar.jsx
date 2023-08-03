@@ -152,7 +152,7 @@ export default function Sidebar({ setUser, user }) {
 
     return (
         <>
-            <Box
+            <Box 
                 flex={1}
                 p={2}
                 sx={{
@@ -287,6 +287,7 @@ export default function Sidebar({ setUser, user }) {
                                     </Button>
                                 </ButtonGroup>
                                 <Button
+                                    color='secondary'
                                     startIcon={<HowToRegIcon />}
                                     variant='outlined'
                                     sx={{ marginTop: '30px' }}
