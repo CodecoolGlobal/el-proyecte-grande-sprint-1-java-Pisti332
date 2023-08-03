@@ -54,22 +54,36 @@ export default function TopBar({ user }) {
                         <Box
                             maxWidth='xl'
                             display='flex'
-                            sx={{ alignItems: 'center' }}
+                            sx={{
+                                alignItems: 'center',
+                                display: {
+                                    xs: 'none',
+                                    sm: 'none',
+                                    md: 'flex',
+                                },
+                            }}
                         >
                             <Search fontSize='large' />
                             <SearchBar>
                                 <InputBase placeholder='Search...' />
                             </SearchBar>
                         </Box>
-                        <LinkedCamera fontSize='large' sx={{display: {xs: 'block', sm: 'block', md: 'none'}}} />
+                        <LinkedCamera
+                            fontSize='large'
+                            sx={{
+                                display: {
+                                    xs: 'block',
+                                    sm: 'block',
+                                    md: 'none',
+                                },
+                            }}
+                        />
                         <Box
                             display='flex'
                             gap={2}
                             sx={{ alignItems: 'center' }}
                         >
-                            <Typography variant='b1'>
-                                {user.name}
-                            </Typography>
+                            <Typography variant='b1'>{user.name}</Typography>
                             <Avatar
                                 alt='User avatar'
                                 src='https://imageio.forbes.com/specials-images/imageserve/6499ae7d51794529225d4176/2022-Toronto-International-Film-Festival---In-Conversation-With----Taylor-Swift/960x0.jpg?format=jpg&width=960'
