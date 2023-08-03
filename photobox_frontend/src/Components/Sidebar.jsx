@@ -139,7 +139,7 @@ export default function Sidebar({ setUser, user }) {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    imageName: name,
+                    imageName: encodeURI(name),
                     userName: user.name,
                     imageData: base64Split,
                     format: format,

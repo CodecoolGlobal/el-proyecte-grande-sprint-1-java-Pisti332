@@ -44,15 +44,15 @@ const Feed = ({ showComments }) => {
                 </ImageListItem>
                 {imagesData.map((item) => (
                     <ImageListItem key={item.name}>
+                        {console.log(IMG_PATH + item.name)}
                         <img
-                            src={`${IMG_PATH + item.name}`}
-                            srcSet={`${IMG_PATH + item.name}`}
+                            src={IMG_PATH + item.name}
                             alt={item.name}
                             loading='lazy'
                         />
                         <ImageListItemBar
-                            title={item.name}
-                            subtitle={item.name}
+                            title={decodeURI(item.name)}
+                            subtitle={decodeURI(item.name)}
                             actionIcon={
                                 <IconButton
                                     id={item.name}

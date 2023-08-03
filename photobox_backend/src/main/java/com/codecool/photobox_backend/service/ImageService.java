@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,12 +44,14 @@ public class ImageService {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             BufferedImage bufferedImage = imageConverter.convert(imageDTO.imageData());
+            String modifiedName = imageDTO.imageName().replace('%', 'a');
+            System.out.println(imageDTO.imageName());
             imageWriter.saveImageAsFile(bufferedImage,
-                    imageDTO.imageName(),
+                    modifiedName,
                     ImageRepository.IMAGES_FOLDER_PATH,
                     imageDTO.format());
             Image imageToSave = Image.builder()
-                    .name(imageDTO.imageName())
+                    .name(modifiedName)
                     .user(user.get())
                     .build();
             imageRepository.save(imageToSave);
