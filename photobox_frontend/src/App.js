@@ -5,32 +5,17 @@ import TopBar from './Components/TopBar';
 import Sidebar from './Components/Sidebar';
 import Feed from './Components/Feed';
 import Comments from './Components/Comments';
-import Picture from './Components/Picture';
 import { createTheme } from '@mui/material/styles';
 
 function App() {
     const [isFeed, setIsFeed] = useState(true);
-    const [picture, setPicture] = useState(null);
-    const [comments, setComments] = useState([]);
+    const [imageName, setImageName] = useState(null);
+    
     const [user, setUser] = useState({ name: 'Please log in...' });
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const form = event.target;
-        const formData = new FormData(form);
-        const formJson = Object.fromEntries(formData.entries());
-
-        setComments(...comments, {
-            id: 1,
-            imageName: event.target.id,
-            user: user.userName,
-            comment: formJson.comment,
-        });
-    };
 
     const showComments = (event) => {
         setIsFeed(false);
-        setPicture(event.currentTarget.id);
+        setImageName(event.currentTarget.id);
     };
     const theme = createTheme({
         palette: {
@@ -67,10 +52,9 @@ function App() {
                     >
                         <Sidebar user={user} setUser={setUser} />
                         <Box>
-                            <Picture picture={picture} />
                             <Comments
-                                comments={comments}
-                                handleSubmit={handleSubmit}
+                                imageName={imageName}
+                                user={user}
                             />
                         </Box>
                     </Stack>
