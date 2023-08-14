@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-@EnableWebSecurity(debug = true)
 public class PhotoboxBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(PhotoboxBackendApplication.class, args);

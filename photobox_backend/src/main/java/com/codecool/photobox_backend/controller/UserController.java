@@ -4,6 +4,7 @@ import com.codecool.photobox_backend.controller.dtos.user.UserDTO;
 import com.codecool.photobox_backend.model.User;
 import com.codecool.photobox_backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -30,8 +31,8 @@ public class UserController {
     }
 
     @PostMapping("signin")
-    public User signIn(@RequestBody UserDTO userDTO) {
-        return userService.signInUser(userDTO);
+    public ResponseEntity<AuthenticationResponse> signin(@RequestBody AuthenticationRequest request) {
+        return ResponseEntity.ok(userService.signInUser(request));
     }
 
     @PutMapping("user/{id}")
