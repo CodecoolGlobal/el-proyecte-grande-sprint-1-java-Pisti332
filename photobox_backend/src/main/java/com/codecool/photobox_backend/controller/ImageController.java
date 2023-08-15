@@ -18,7 +18,7 @@ public class ImageController {
         this.imageService = imageService;
     }
 
-    @GetMapping("{limit}")
+    @GetMapping("/get/{limit}")
     public List<Image> getAllImages(@PathVariable int limit) {
         return imageService.getImagesWithLimit(limit);
     }
@@ -27,6 +27,7 @@ public class ImageController {
     public Image getImageByName(@PathVariable String imageName){
         return imageService.getImageByName(imageName);
     }
+
     @PostMapping("{userId}")
     public void uploadImage(@RequestBody ImageDTO imageDTO, @PathVariable Long userId) throws IOException {
         imageService.uploadImage(imageDTO, userId);

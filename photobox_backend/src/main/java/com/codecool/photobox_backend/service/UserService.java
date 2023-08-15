@@ -50,6 +50,6 @@ public class UserService{
         );
         User user = userRepository.findByName(request.getUsername());
         String token = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().token(token).build();
+        return AuthenticationResponse.builder().token(token).userId(user.getId()).username(user.getUsername()).build();
     }
 }

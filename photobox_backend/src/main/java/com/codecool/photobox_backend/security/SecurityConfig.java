@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authz) -> {
                     authz
                             .requestMatchers("/api/auth/**").permitAll()
-                            .requestMatchers("/api/images/**").permitAll()
+                            .requestMatchers("/api/images/get/{limit}").permitAll()
                             .anyRequest().authenticated();
                 })
                 .sessionManagement(
