@@ -16,7 +16,7 @@ const Feed = ({ showComments }) => {
     useEffect(() => {
         async function startFetching() {
             setImagesData(null);
-            const request = await fetch('/api/images/20');
+            const request = await fetch('/api/images/get/20');
             const result = await request.json();
             if (!ignore) {
                 setImagesData(result);
