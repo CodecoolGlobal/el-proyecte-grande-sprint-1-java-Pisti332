@@ -34,6 +34,8 @@ public class SecurityConfig {
                     authz
                             .requestMatchers("/api/auth/**").permitAll()
                             .requestMatchers("/api/images/get/{limit}").permitAll()
+                            .requestMatchers("/api/getcomments/**").permitAll()
+                            .requestMatchers("/api/images/image/**").permitAll()
                             .anyRequest().authenticated();
                 })
                 .sessionManagement(
