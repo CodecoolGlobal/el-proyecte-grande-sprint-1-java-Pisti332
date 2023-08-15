@@ -26,7 +26,7 @@ export default function Comments({ imageName, user, isUploadDisabled }) {
         );
     };
     const fetchComments = (imageId) => {
-        return fetch(`/api/${imageId}`).then((res) => res.json());
+        return fetch(`/api/getcomments/${imageId}`).then((res) => res.json());
     };
 
     const handleSubmit = (event) => {
@@ -52,6 +52,7 @@ export default function Comments({ imageName, user, isUploadDisabled }) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('userToken')).token}`
             },
             body: JSON.stringify(formJson),
         });
