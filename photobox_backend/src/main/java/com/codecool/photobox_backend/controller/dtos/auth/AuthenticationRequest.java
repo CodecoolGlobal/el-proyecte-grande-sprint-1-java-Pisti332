@@ -1,4 +1,4 @@
-package com.codecool.photobox_backend.controller;
+package com.codecool.photobox_backend.controller.dtos.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
-    private String token;
-    private Long userId;
+public class AuthenticationRequest {
     private String username;
+    private String password;
 }

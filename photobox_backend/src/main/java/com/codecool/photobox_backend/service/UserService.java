@@ -1,20 +1,19 @@
 package com.codecool.photobox_backend.service;
 
-import com.codecool.photobox_backend.controller.AuthenticationRequest;
-import com.codecool.photobox_backend.controller.AuthenticationResponse;
+import com.codecool.photobox_backend.controller.dtos.auth.AuthenticationRequest;
+import com.codecool.photobox_backend.controller.dtos.auth.AuthenticationResponse;
 import com.codecool.photobox_backend.controller.dtos.user.UserDTO;
 import com.codecool.photobox_backend.model.User;
 import com.codecool.photobox_backend.repository.UserRepository;
 import com.codecool.photobox_backend.security.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -49,7 +48,12 @@ public class UserService{
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
         User user = userRepository.findByName(request.getUsername());
-        String token = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().token(token).userId(user.getId()).username(user.getUsername()).build();
+        UserDetails userDetails = org.springframework.security.core.userdetails.User
+                .builder()
+                .password(user.getPassword())
+                .username(user.getName())
+                .build();
+        String token = jwtService.generateToken(userDetails);
+        return AuthenticationResponse.builder().token(token).userId(user.getId()).username(user.getName()).build();
     }
 }
