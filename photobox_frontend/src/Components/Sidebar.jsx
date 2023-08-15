@@ -32,7 +32,12 @@ const StyledModal = styled(Modal)({
     justifyContent: 'center',
 });
 
-export default function Sidebar({ setUser, user, isUploadDisabled, setIsUploadDisabled }) {
+export default function Sidebar({
+    setUser,
+    user,
+    isUploadDisabled,
+    setIsUploadDisabled,
+}) {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
     const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -62,7 +67,7 @@ export default function Sidebar({ setUser, user, isUploadDisabled, setIsUploadDi
         const response = await request.json();
         setIsLoginOpen(false);
         setIsRegister(false);
-        setUser(response);
+        setUser({ name: response.name, id: response.id });
         localStorage.setItem(
             'user',
             JSON.stringify({ name: response.name, id: response.id }),
@@ -77,27 +82,35 @@ export default function Sidebar({ setUser, user, isUploadDisabled, setIsUploadDi
         const form = e.target;
         const formData = new FormData(form);
         const formJson = Object.fromEntries(formData.entries());
-        const request = await fetch('/api/auth/signin', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formJson),
-        });
-        const response = await request.json();
-        if (response.name) {
-            setUser(response);
+        try {
+            const request = await fetch('/api/auth/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formJson),
+            });
+            const response = await request.json();
+            setUser({ name: response.username, id: response.userId });
+            localStorage.setItem(
+                'user',
+                JSON.stringify({
+                    name: response.username,
+                    id: response.userId,
+                }),
+            );
             setIsLoginOpen(false);
             setIsRegister(false);
             localStorage.setItem(
-                'user',
-                JSON.stringify({ name: response.name, id: response.id }),
+                'userToken',
+                JSON.stringify({ token: response.token }),
             );
             setIsSuccesboxOpen(true);
             setIsLogoutDisabled(false);
             setIsUploadDisabled(false);
-        } else {
+        } catch (error) {
             setIsAlertOpen(true);
+            console.error(error);
         }
     }
 
@@ -156,7 +169,7 @@ export default function Sidebar({ setUser, user, isUploadDisabled, setIsUploadDi
 
     return (
         <>
-            <Box 
+            <Box
                 flex={1}
                 p={2}
                 sx={{
@@ -184,7 +197,10 @@ export default function Sidebar({ setUser, user, isUploadDisabled, setIsUploadDi
                                 </ListItemButton>
                             </ListItem>
                             <ListItem disablePadding>
-                                <ListItemButton component='label' disabled={isUploadDisabled}>
+                                <ListItemButton
+                                    component='label'
+                                    disabled={isUploadDisabled}
+                                >
                                     <ListItemIcon>
                                         <Upload />
                                     </ListItemIcon>
