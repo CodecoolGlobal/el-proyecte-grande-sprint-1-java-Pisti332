@@ -1,6 +1,7 @@
 package com.codecool.photobox_backend.configuration;
 
 import com.codecool.photobox_backend.repository.UserRepository;
+import com.codecool.photobox_backend.security.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,7 @@ public class ApplicationConfiguration {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByName(username);
+        return new MyUserDetailsService(userRepository);
     }
     @Bean
     public PasswordEncoder Encoder() {

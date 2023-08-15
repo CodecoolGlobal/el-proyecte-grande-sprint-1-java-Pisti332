@@ -1,5 +1,7 @@
 package com.codecool.photobox_backend.controller;
 
+import com.codecool.photobox_backend.controller.dtos.auth.AuthenticationRequest;
+import com.codecool.photobox_backend.controller.dtos.auth.AuthenticationResponse;
 import com.codecool.photobox_backend.controller.dtos.user.UserDTO;
 import com.codecool.photobox_backend.model.User;
 import com.codecool.photobox_backend.service.UserService;
@@ -18,12 +20,6 @@ public class UserController {
         this.userService = userService;
     }
 
-
-    @GetMapping("user/{id}")
-    public User getUserById(@PathVariable Long id) {
-        Optional<User> userOptional = userService.getUserById(id);
-        return userOptional.orElse(null);
-    }
 
     @PostMapping("signup")
     public User signUp(@RequestBody UserDTO UserDTO) {

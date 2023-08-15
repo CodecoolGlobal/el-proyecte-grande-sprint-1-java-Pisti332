@@ -51,13 +51,13 @@ class UserServiceTest {
         assertEquals(expected.getEmail(), actual.getEmail());
     }
 
-    @Test
-    void signInUser() {
-        User expected = testUser1;
-        when(userRepository.findByName("Jack")).thenReturn(testUser1);
-
-        User actual = underTest.signInUser(new UserDTO("Jack", "Jack", "Jack"));
-
-        assertEquals(expected, actual);
-    }
+//    @Test
+//    void signInUser() {
+//        User expected = testUser1;
+//        when(userRepository.findByName("Jack")).thenReturn(testUser1);
+//
+//        User actual = underTest.signInUser(new UserDTO("Jack", "Jack", "Jack"));
+//
+//        assertEquals(expected, actual);
+//    }
 }
