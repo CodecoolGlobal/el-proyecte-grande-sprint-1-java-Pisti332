@@ -65,12 +65,16 @@ export default function Sidebar({
             body: JSON.stringify(formJson),
         });
         const response = await request.json();
+        localStorage.setItem(
+            'userToken',
+            JSON.stringify({ token: response.token })
+        );
         setIsLoginOpen(false);
         setIsRegister(false);
-        setUser({ name: response.name, id: response.id });
+        setUser({ name: response.username, id: response.userId });
         localStorage.setItem(
             'user',
-            JSON.stringify({ name: response.name, id: response.id }),
+            JSON.stringify({ name: response.username, id: response.userId }),
         );
         setIsSuccesboxOpen(true);
         setIsLogoutDisabled(false);
