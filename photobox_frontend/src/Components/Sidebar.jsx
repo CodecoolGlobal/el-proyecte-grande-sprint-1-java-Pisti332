@@ -154,6 +154,7 @@ export default function Sidebar({
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${JSON.parse(localStorage.getItem('userToken')).token}`
                 },
                 body: JSON.stringify({
                     imageName: encodeURI(name),

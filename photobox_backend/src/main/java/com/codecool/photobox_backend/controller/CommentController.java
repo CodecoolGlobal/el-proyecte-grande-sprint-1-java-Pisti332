@@ -19,7 +19,7 @@ public class CommentController {
     this.commentService = commentService;
   }
 
-  @GetMapping("{image_id}")
+  @GetMapping("/getcomments/{image_id}")
   public Set<Comment> getComments(@PathVariable UUID image_id) {
     return commentService.getComments(image_id);
   }
