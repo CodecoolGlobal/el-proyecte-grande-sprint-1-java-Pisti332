@@ -33,10 +33,12 @@ export default function SpeedDialMenu({
                 base64Image.indexOf('/') + 1,
                 base64Image.indexOf(';'),
             );
+            console.log(`Bearer ${JSON.parse(localStorage.getItem('userToken')).token}`);
             fetch(`/api/images/${user.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${JSON.parse(localStorage.getItem('userToken')).token}`
                 },
                 body: JSON.stringify({
                     imageName: name,
