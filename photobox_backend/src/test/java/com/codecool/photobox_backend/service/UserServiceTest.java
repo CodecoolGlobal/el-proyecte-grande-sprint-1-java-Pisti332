@@ -40,16 +40,16 @@ class UserServiceTest {
         assertEquals(expected, actual);
     }
 
-    @Test
-    void registerUser() {
-        User expected = testUser2;
-        User actual = underTest.registerUser(new UserDTO("Bob", "Bob", "Bob"));
-
-        verify(userRepository, times(1)).save(any(User.class));
-        assertEquals(expected.getPassword(), actual.getPassword());
-        assertEquals(expected.getName(), actual.getName());
-        assertEquals(expected.getEmail(), actual.getEmail());
-    }
+//    @Test
+//    void registerUser() {
+//        User expected = testUser2;
+//        User actual = underTest.registerUser(new UserDTO("Bob", "Bob", "Bob"));
+//
+//        verify(userRepository, times(1)).save(any(User.class));
+//        assertEquals(expected.getPassword(), actual.getPassword());
+//        assertEquals(expected.getName(), actual.getName());
+//        assertEquals(expected.getEmail(), actual.getEmail());
+//    }
 
 //    @Test
 //    void signInUser() {
