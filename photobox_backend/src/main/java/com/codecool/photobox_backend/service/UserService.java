@@ -34,13 +34,22 @@ public class UserService{
         return userRepository.findById(id);
     }
 
-    public User registerUser(UserDTO userDTO) {
+    public AuthenticationResponse registerUser(UserDTO userDTO) {
         User userToSave = new User();
         userToSave.setName(userDTO.username());
         userToSave.setEmail(userDTO.email());
         userToSave.setPassword(passwordEncoder.encode(userDTO.password()));
-        userRepository.save(userToSave);
-        return userToSave;
+        User user = userRepository.save(userToSave);
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(userDTO.username(), userDTO.password())
+        );
+        UserDetails userDetails = org.springframework.security.core.userdetails.User
+                .builder()
+                .password(user.getPassword())
+                .username(user.getName())
+                .build();
+        String token = jwtService.generateToken(userDetails);
+        return AuthenticationResponse.builder().token(token).userId(user.getId()).username(user.getName()).build();
     }
 
     public AuthenticationResponse signInUser(AuthenticationRequest request) {

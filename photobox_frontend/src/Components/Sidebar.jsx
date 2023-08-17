@@ -65,12 +65,16 @@ export default function Sidebar({
             body: JSON.stringify(formJson),
         });
         const response = await request.json();
+        localStorage.setItem(
+            'userToken',
+            JSON.stringify({ token: response.token })
+        );
         setIsLoginOpen(false);
         setIsRegister(false);
-        setUser({ name: response.name, id: response.id });
+        setUser({ name: response.username, id: response.userId });
         localStorage.setItem(
             'user',
-            JSON.stringify({ name: response.name, id: response.id }),
+            JSON.stringify({ name: response.username, id: response.userId }),
         );
         setIsSuccesboxOpen(true);
         setIsLogoutDisabled(false);
@@ -277,6 +281,7 @@ export default function Sidebar({
                                         label='Username'
                                         variant='outlined'
                                         name='username'
+                                        required
                                     />
                                 </FormControl>
                                 <FormControl margin='normal'>
@@ -287,6 +292,7 @@ export default function Sidebar({
                                         type='password'
                                         autoComplete='true'
                                         name='password'
+                                        required
                                     />
                                 </FormControl>
                                 <ButtonGroup
@@ -340,6 +346,7 @@ export default function Sidebar({
                                         label='Username'
                                         variant='outlined'
                                         name='username'
+                                        required
                                     />
                                 </FormControl>
                                 <FormControl variant='standard' margin='normal'>
@@ -348,6 +355,7 @@ export default function Sidebar({
                                         label='Email'
                                         variant='outlined'
                                         name='email'
+                                        required
                                     />
                                 </FormControl>
                                 <FormControl margin='normal'>
@@ -358,6 +366,7 @@ export default function Sidebar({
                                         type='password'
                                         name='password'
                                         autoComplete='true'
+                                        required
                                     />
                                 </FormControl>
                                 <ButtonGroup
