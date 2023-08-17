@@ -25,7 +25,6 @@ public class Image {
     @GeneratedValue()
     private UUID id;
     private String name;
-    @JsonIgnore
     @ManyToOne
     private User user;
     @OneToMany(mappedBy = "image")
