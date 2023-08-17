@@ -41,7 +41,7 @@ export default function SpeedDialMenu({
                     'Authorization': `Bearer ${JSON.parse(localStorage.getItem('userToken')).token}`
                 },
                 body: JSON.stringify({
-                    imageName: name,
+                    imageName: encodeURI(name),
                     userName: user.name,
                     imageData: base64Split,
                     format: format,
