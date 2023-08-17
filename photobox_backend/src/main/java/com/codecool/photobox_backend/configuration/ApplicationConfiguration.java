@@ -1,6 +1,7 @@
 package com.codecool.photobox_backend.configuration;
 
 import com.codecool.photobox_backend.repository.UserRepository;
+import com.codecool.photobox_backend.security.JWTService;
 import com.codecool.photobox_backend.security.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -32,5 +33,10 @@ public class ApplicationConfiguration {
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(Encoder());
         return authProvider;
+    }
+
+    @Bean
+    public JWTService jwtService() {
+        return new JWTService();
     }
 }

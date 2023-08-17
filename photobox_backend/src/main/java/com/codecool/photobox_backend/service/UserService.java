@@ -53,9 +53,9 @@ public class UserService{
     }
 
     public AuthenticationResponse signInUser(AuthenticationRequest request) {
-        authenticationManager.authenticate(
+        /*authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-        );
+        );*/
         User user = userRepository.findByName(request.getUsername());
         UserDetails userDetails = org.springframework.security.core.userdetails.User
                 .builder()
