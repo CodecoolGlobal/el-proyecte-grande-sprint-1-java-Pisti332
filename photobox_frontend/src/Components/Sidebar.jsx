@@ -281,6 +281,7 @@ export default function Sidebar({
                                         label='Username'
                                         variant='outlined'
                                         name='username'
+                                        required
                                     />
                                 </FormControl>
                                 <FormControl margin='normal'>
@@ -291,6 +292,7 @@ export default function Sidebar({
                                         type='password'
                                         autoComplete='true'
                                         name='password'
+                                        required
                                     />
                                 </FormControl>
                                 <ButtonGroup
@@ -344,6 +346,7 @@ export default function Sidebar({
                                         label='Username'
                                         variant='outlined'
                                         name='username'
+                                        required
                                     />
                                 </FormControl>
                                 <FormControl variant='standard' margin='normal'>
@@ -352,6 +355,7 @@ export default function Sidebar({
                                         label='Email'
                                         variant='outlined'
                                         name='email'
+                                        required
                                     />
                                 </FormControl>
                                 <FormControl margin='normal'>
@@ -362,6 +366,7 @@ export default function Sidebar({
                                         type='password'
                                         name='password'
                                         autoComplete='true'
+                                        required
                                     />
                                 </FormControl>
                                 <ButtonGroup
