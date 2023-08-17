@@ -54,7 +54,7 @@ const Feed = ({ showComments }) => {
                         />
                         <ImageListItemBar
                             title={decodeURI(item.name)}
-                            subtitle={decodeURI(item.name)}
+                            subtitle={decodeURI(item.user.name)}
                             actionIcon={
                                 <IconButton
                                     id={item.name}
