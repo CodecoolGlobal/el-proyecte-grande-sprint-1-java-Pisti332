@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authz) -> {
                     authz
+                            .requestMatchers("/**").permitAll()
                             .requestMatchers("/api/auth/**").permitAll()
                             .requestMatchers("/api/images/get/{limit}").permitAll()
                             .requestMatchers("/api/getcomments/**").permitAll()
