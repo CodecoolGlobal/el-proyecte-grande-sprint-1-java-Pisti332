@@ -1,6 +1,7 @@
 package com.codecool.photobox_backend.controller;
 
 import com.codecool.photobox_backend.controller.dtos.image.ImageDTO;
+import com.codecool.photobox_backend.controller.dtos.image.ImageWithIdDTO;
 import com.codecool.photobox_backend.controller.dtos.image.ImagesDTO;
 import com.codecool.photobox_backend.model.Image;
 import com.codecool.photobox_backend.service.ImageService;
@@ -25,7 +26,7 @@ public class ImageController {
     }
 
     @GetMapping("image/{imageName}")
-    public Image getImageByName(@PathVariable String imageName){
+    public ImageWithIdDTO getImageByName(@PathVariable String imageName) {
         return imageService.getImageByName(imageName);
     }
 
