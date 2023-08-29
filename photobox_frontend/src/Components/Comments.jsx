@@ -30,13 +30,14 @@ export default function Comments({ imageName, user, isUploadDisabled }) {
     };
 
     const handleSubmit = (event) => {
+        event.preventDefault();
         const form = event.target;
         const formData = new FormData(form);
         const comment = Object.fromEntries(formData.entries());
         const formJson = {
             content: comment.comment,
             userId: user.id,
-            imageId: image.id,
+            imageId: image.imageId,
         };
         const commentToAdd = {
             content: comment.comment,
@@ -60,7 +61,7 @@ export default function Comments({ imageName, user, isUploadDisabled }) {
     useEffect(() => {
         fetchImage(imageName).then((image) => {
             setImage(image);
-            fetchComments(image.id).then((comments) => {
+            fetchComments(image.imageId).then((comments) => {
                 setComments(comments);
                 setImageLoading(false);
             });
@@ -79,11 +80,11 @@ export default function Comments({ imageName, user, isUploadDisabled }) {
                 <CardMedia
                     sx={{ height: '60vh' }}
                     image={`data:image/jpeg;base64,${image.data}`}
-                    title={image.name}
+                    title={image.imageId}
                 />
                 <CardContent>
                     <Typography gutterBottom variant='h5' component='div'>
-                        {image.name}
+                        {image.ImageId}
                     </Typography>
                     <Typography variant='body2' color='text.secondary'>
                         Todo...
