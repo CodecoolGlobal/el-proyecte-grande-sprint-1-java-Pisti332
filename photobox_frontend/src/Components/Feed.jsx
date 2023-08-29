@@ -4,28 +4,32 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Loading from './Loading/Loading';
-import { Box, IconButton, ListSubheader, useMediaQuery, useTheme } from '@mui/material';
+import {
+    Box,
+    IconButton,
+    ListSubheader,
+    useMediaQuery,
+    useTheme,
+} from '@mui/material';
 import { Comment } from '@mui/icons-material';
-
-const IMG_PATH = '\\img\\';
 
 const Feed = ({ showComments }) => {
     const [loading, setLoading] = useState(true);
     const [imagesData, setImagesData] = useState(null);
 
     useEffect(() => {
-        async function startFetching() {
+        async function fetchImages() {
             setImagesData(null);
             const request = await fetch('/api/images/get/20');
             const result = await request.json();
             if (!ignore) {
-                setImagesData(result);
+                setImagesData(convertImagesObject(result));
                 setLoading(false);
             }
         }
 
         let ignore = false;
-        startFetching();
+        fetchImages();
         return () => {
             ignore = true;
         };
@@ -33,22 +37,36 @@ const Feed = ({ showComments }) => {
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
 
+    function convertImagesObject(fetchResult) {
+        const result = [];
+        for (const key in fetchResult) {
+            const subResult = { name: key, data: fetchResult[key] };
+            result.push(subResult);
+        }
+        return result;
+    }
+
     if (loading) {
         return (
-            <Box display='flex' justifyContent='center' alignItems='center' width="80vw" height="80vh">
+            <Box
+                display='flex'
+                justifyContent='center'
+                alignItems='center'
+                width='80vw'
+                height='80vh'
+            >
                 <Loading />
             </Box>
         );
     }
 
-
     return (
         <Box maxWidth={matchDownMd ? '93vw' : '80vw'}>
-            <ImageList cols={matchDownMd ? 1 : 2 } gap={30}>
+            <ImageList cols={matchDownMd ? 1 : 2} gap={30}>
                 {imagesData.map((item) => (
                     <ImageListItem key={item.name}>
                         <img
-                            src={IMG_PATH + item.name}
+                            src={`data:image/jpeg;base64,${item.data}`}
                             alt={item.name}
                             loading='lazy'
                         />
