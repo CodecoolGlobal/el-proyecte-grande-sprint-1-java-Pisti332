@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RootController {
     @GetMapping
     public String asd() {
-        return "asd";
+        return "index";
     }
 }

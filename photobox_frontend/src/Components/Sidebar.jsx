@@ -144,7 +144,6 @@ export default function Sidebar({
         });
 
     const sendImage = async (event) => {
-        event.preventDefault();
         try {
             const file = event.target.files[0];
             const name = event.target.files[0].name;
