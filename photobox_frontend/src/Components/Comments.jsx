@@ -62,7 +62,6 @@ export default function Comments({ imageName, user, isUploadDisabled }) {
         fetchImage(imageName).then((image) => {
             setImage(image);
             fetchComments(image.id).then((comments) => {
-                console.log(comments);
                 setComments(comments);
                 setImageLoading(false);
             });
@@ -80,7 +79,7 @@ export default function Comments({ imageName, user, isUploadDisabled }) {
             >
                 <CardMedia
                     sx={{ height: '60vh' }}
-                    image={`/img/${image.name}`}
+                    image={`data:image/jpeg;base64,${image.data}`}
                     title={image.name}
                 />
                 <CardContent>
