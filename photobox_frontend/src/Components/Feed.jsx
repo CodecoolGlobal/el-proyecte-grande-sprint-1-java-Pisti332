@@ -37,13 +37,11 @@ const Feed = ({ showComments }) => {
     const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
 
     function convertImagesObject(fetchResult) {
-        console.log(fetchResult);
         const result = [];
         for (const key in fetchResult.images) {
             const subResult = { name: key, data: fetchResult.images[key] };
             result.push(subResult);
         }
-        console.log(result);
         return result;
     }
 

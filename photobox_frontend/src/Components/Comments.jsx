@@ -30,7 +30,6 @@ export default function Comments({ imageName, user, isUploadDisabled }) {
     };
 
     const handleSubmit = (event) => {
-        event.preventDefault();
         const form = event.target;
         const formData = new FormData(form);
         const comment = Object.fromEntries(formData.entries());
