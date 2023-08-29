@@ -1,6 +1,7 @@
 package com.codecool.photobox_backend.controller;
 
 import com.codecool.photobox_backend.controller.dtos.image.ImageDTO;
+import com.codecool.photobox_backend.controller.dtos.image.ImagesDTO;
 import com.codecool.photobox_backend.model.Image;
 import com.codecool.photobox_backend.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class ImageController {
     }
 
     @GetMapping("/get/{limit}")
-    public List<Image> getAllImages(@PathVariable int limit) {
+    public ImagesDTO getAllImages(@PathVariable int limit) {
         return imageService.getImagesWithLimit(limit);
     }
 
