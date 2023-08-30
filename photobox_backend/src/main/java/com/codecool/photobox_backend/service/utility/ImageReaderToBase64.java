@@ -10,6 +10,7 @@ import java.util.Base64;
 @Service
 public class ImageReaderToBase64 {
     public String convert(String filePath) {
+        System.out.println(filePath);
         try {
             System.out.println(filePath);
             File file = new File(filePath);

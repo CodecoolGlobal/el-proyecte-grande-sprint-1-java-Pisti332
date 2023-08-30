@@ -46,7 +46,7 @@ public class ImageService {
         HashMap<String, String> imagesMap = new HashMap<>();
         if (images.size() > 0) {
             for (int i = 0; i < limit && i < images.size(); i++) {
-                String base64 = imageReaderToBase64.convert(this.folderPath + "\\" + images.get(i).getName());
+                String base64 = imageReaderToBase64.convert(this.folderPath + "/" + images.get(i).getName());
                 imagesMap.put(images.get(i).getName(), base64);
             }
         }
@@ -74,7 +74,7 @@ public class ImageService {
   public ImageWithIdDTO getImageByName(String imageName) {
         try {
             Image image = imageRepository.getImageByName(imageName);
-            String base64 = imageReaderToBase64.convert(folderPath + "\\" + imageName);
+            String base64 = imageReaderToBase64.convert(folderPath + "/" + imageName);
             return new ImageWithIdDTO(image.getId(), base64);
         }
         catch (Exception e) {
