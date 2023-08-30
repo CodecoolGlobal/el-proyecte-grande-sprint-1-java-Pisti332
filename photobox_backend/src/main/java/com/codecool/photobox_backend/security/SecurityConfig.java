@@ -32,11 +32,17 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authz) -> {
                     authz
-                            .requestMatchers("/api/auth/**").permitAll()
-                            .requestMatchers("/api/images/get/{limit}").permitAll()
-                            .requestMatchers("/api/getcomments/**").permitAll()
-                            .requestMatchers("/api/images/image/**").permitAll()
-                            .requestMatchers("/index.html", "/static/**", "/robots.txt", "favicon.ico", "manifest.json", "logo192.png").permitAll()
+                            .requestMatchers("/",
+                                    "/api/auth/**",
+                                    "/api/images/get/{limit}",
+                                    "/api/getcomments/**",
+                                    "/api/images/image/**",
+                                    "/static/**",
+                                    "manifest.json",
+                                    "/index.html",
+                                    "/robots.txt",
+                                    "favicon.ico",
+                                    "logo192.png").permitAll()
                             .anyRequest().authenticated();
                 })
                 .sessionManagement(
