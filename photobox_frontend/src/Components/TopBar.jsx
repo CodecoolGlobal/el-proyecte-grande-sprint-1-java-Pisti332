@@ -19,6 +19,7 @@ const SearchBar = styled('div')(() => ({
 }));
 
 export default function TopBar({ user }) {
+    let isLoggedIn = user.name !== "Please log in...";
     return (
         <>
             <AppBar position='sticky'>
@@ -93,10 +94,16 @@ export default function TopBar({ user }) {
                             sx={{ alignItems: 'center' }}
                         >
                             <Typography variant='b1'>{user.name}</Typography>
-                            <Avatar
-                                alt='User avatar'
-                                src={`https://avatars.dicebear.com/api/pixel-art/${user.name}.svg`}
-                            />
+                            {isLoggedIn ?
+                                <Avatar
+                                    alt='User avatar'
+                                    src={`https://avatars.dicebear.com/api/pixel-art/${user.name}.svg`}
+                                /> :
+                                <Avatar
+                                    alt='User avatar'
+                                    src={`https://avatars.dicebear.com/api/identification/.svg`}
+                                />
+                            }
                         </Box>
                     </Toolbar>
                 </Container>
