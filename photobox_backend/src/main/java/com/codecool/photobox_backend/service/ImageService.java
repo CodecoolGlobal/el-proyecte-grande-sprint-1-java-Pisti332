@@ -81,8 +81,14 @@ public class ImageService {
   public ImageWithIdDTO getImageByName(String imageName) {
         try {
             Image image = imageRepository.getImageByName(imageName);
+            Optional<User> user = userRepository.findById(image.getUser().getId());
             String base64 = imageReaderToBase64.convert(folderPath + "/" + imageName);
-            return new ImageWithIdDTO(image.getId(), base64);
+            if (user.isPresent()) {
+                return new ImageWithIdDTO(image.getId(), base64, user.get().getName());
+            }
+            else {
+                return new ImageWithIdDTO(image.getId(), base64, "unknown username");
+            }
         }
         catch (Exception e) {
             return null;

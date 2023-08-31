@@ -87,7 +87,7 @@ export default function Comments({ imageName, user, isUploadDisabled }) {
                         {image.ImageId}
                     </Typography>
                     <Typography variant='body2' color='text.secondary'>
-                        Todo...
+                        {image.username}
                     </Typography>
                 </CardContent>
             </Card>
