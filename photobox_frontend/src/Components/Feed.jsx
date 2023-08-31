@@ -62,24 +62,25 @@ const Feed = ({ showComments }) => {
     return (
         <Box maxWidth={matchDownMd ? '93vw' : '80vw'}>
             <ImageList cols={matchDownMd ? 1 : 2} gap={30}>
+                {console.log({ imagesData })}
                 {imagesData.map((item) => (
-                    <ImageListItem key={item.name}>
+                    <ImageListItem key={item.data.imageName}>
                         <img
-                            src={`data:image/jpeg;base64,${item.data}`}
-                            alt={item.name}
+                            src={`data:image/jpeg;base64,${item.data.imageData}`}
+                            alt={item.data.imageName}
                             loading='lazy'
                         />
                         <ImageListItemBar
-                            title={decodeURI(item.name)}
-                            subtitle={decodeURI(item.name)}
+                            title={decodeURI(item.data.imageName)}
+                            subtitle={decodeURI(item.data.userName)}
                             actionIcon={
                                 <IconButton
-                                    id={item.name}
+                                    id={item.data.imageName}
                                     onClick={showComments}
                                     sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                                    aria-label={`info about ${item.name}`}
+                                    aria-label={`info about ${item.data.imageName}`}
                                 >
-                                    <Comment id={item.name} />
+                                    <Comment id={item.data.imageName} />
                                 </IconButton>
                             }
                         />
