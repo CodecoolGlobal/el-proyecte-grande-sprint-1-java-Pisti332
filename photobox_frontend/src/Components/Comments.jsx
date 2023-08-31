@@ -52,7 +52,9 @@ export default function Comments({ imageName, user, isUploadDisabled }) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('userToken')).token}`
+                Authorization: `Bearer ${
+                    JSON.parse(localStorage.getItem('userToken')).token
+                }`,
             },
             body: JSON.stringify(formJson),
         });
@@ -73,12 +75,12 @@ export default function Comments({ imageName, user, isUploadDisabled }) {
     }
 
     return (
-        <Box>
+        <Box mb={'100px'}>
             <Card
                 sx={{ width: '80vw', marginRight: '20px', marginTop: '10px' }}
             >
                 <CardMedia
-                    sx={{ height: '60vh' }}
+                    sx={{ height: '100vh' }}
                     image={`data:image/jpeg;base64,${image.data}`}
                     title={image.imageId}
                 />

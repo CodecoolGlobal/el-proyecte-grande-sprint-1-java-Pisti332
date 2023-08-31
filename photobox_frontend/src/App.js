@@ -12,7 +12,8 @@ function App() {
     const [imageName, setImageName] = useState(null);
     const [isUploadDisabled, setIsUploadDisabled] = useState(true);
     const [user, setUser] = useState({ name: 'Please log in...' });
-    const [filterWord, setFilterWord] = useState("");
+    const [imagesData, setImagesData] = useState(null);
+    const [filterWord, setFilterWord] = useState('');
 
     const showComments = (event) => {
         setIsFeed(false);
@@ -45,8 +46,15 @@ function App() {
                             setUser={setUser}
                             isUploadDisabled={isUploadDisabled}
                             setIsUploadDisabled={setIsUploadDisabled}
+                            setImagesData={setImagesData}
+                            imagesData={imagesData}
                         />
-                        <Feed showComments={showComments} filterWord={filterWord}/>
+                        <Feed
+                            showComments={showComments}
+                            imagesData={imagesData}
+                            setImagesData={setImagesData}
+                            filterWord={filterWord}
+                        />
                     </Stack>
                 </>
             ) : (

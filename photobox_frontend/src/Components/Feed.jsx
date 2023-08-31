@@ -4,17 +4,11 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Loading from './Loading/Loading';
-import {
-    Box,
-    IconButton,
-    useMediaQuery,
-    useTheme,
-} from '@mui/material';
+import { Box, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { Comment } from '@mui/icons-material';
 
-const Feed = ({ showComments, filterWord }) => {
+const Feed = ({ showComments, filterWord, imagesData, setImagesData }) => {
     const [loading, setLoading] = useState(true);
-    const [imagesData, setImagesData] = useState(null);
     const [images, setImages] = useState(null);
 
     useEffect(() => {
@@ -23,7 +17,7 @@ const Feed = ({ showComments, filterWord }) => {
             const request = await fetch('/api/images/get/20');
             const result = await request.json();
             if (!ignore) {
-                setImagesData(convertImagesObject(result));
+                setImagesData(result.images);
                 setLoading(false);
             }
         }
@@ -34,23 +28,25 @@ const Feed = ({ showComments, filterWord }) => {
             ignore = true;
         };
     }, []);
+
     function filterImages(imagesData, filterWord) {
-        return imagesData && imagesData.filter(imageData => imageData.data.imageName.toLowerCase().includes(filterWord));
+        if (imagesData) {
+            console.log(imagesData);
+        }
+        return (
+            imagesData &&
+            imagesData.filter((imageData) =>
+                imageData.imageName.toLowerCase().includes(filterWord),
+            )
+        );
     }
+
     useEffect(() => {
         setImages(filterImages(imagesData, filterWord));
     }, [filterWord, imagesData]);
+
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
-
-    function convertImagesObject(fetchResult) {
-        const result = [];
-        for (const key in fetchResult.images) {
-            const subResult = { name: key, data: fetchResult.images[key] };
-            result.push(subResult);
-        }
-        return result;
-    }
 
     if (loading) {
         return (
@@ -69,29 +65,32 @@ const Feed = ({ showComments, filterWord }) => {
     return (
         <Box maxWidth={matchDownMd ? '93vw' : '80vw'}>
             <ImageList cols={matchDownMd ? 1 : 2} gap={30}>
-                {images && images.map((item) => (
-                    <ImageListItem key={item.data.imageName}>
-                        <img
-                            src={`data:image/jpeg;base64,${item.data.imageData}`}
-                            alt={item.data.imageName}
-                            loading='lazy'
-                        />
-                        <ImageListItemBar
-                            title={decodeURI(item.data.imageName)}
-                            subtitle={decodeURI(item.data.userName)}
-                            actionIcon={
-                                <IconButton
-                                    id={item.data.imageName}
-                                    onClick={showComments}
-                                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                                    aria-label={`info about ${item.data.imageName}`}
-                                >
-                                    <Comment id={item.data.imageName} />
-                                </IconButton>
-                            }
-                        />
-                    </ImageListItem>
-                ))}
+                {images &&
+                    images.map((item) => (
+                        <ImageListItem key={item.imageName}>
+                            <img
+                                src={`data:image/jpeg;base64,${item.imageData}`}
+                                alt={item.imageName}
+                                loading='lazy'
+                            />
+                            <ImageListItemBar
+                                title={decodeURI(item.imageName)}
+                                subtitle={decodeURI(item.userName)}
+                                actionIcon={
+                                    <IconButton
+                                        id={item.imageName}
+                                        onClick={showComments}
+                                        sx={{
+                                            color: 'rgba(255, 255, 255, 0.54)',
+                                        }}
+                                        aria-label={`info about ${item.imageName}`}
+                                    >
+                                        <Comment id={item.imageName} />
+                                    </IconButton>
+                                }
+                            />
+                        </ImageListItem>
+                    ))}
             </ImageList>
         </Box>
     );
