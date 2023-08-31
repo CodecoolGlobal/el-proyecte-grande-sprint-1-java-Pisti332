@@ -166,6 +166,7 @@ export default function Sidebar({
                     format: format,
                 }),
             });
+            
         } catch (e) {
             console.error(e);
         }
