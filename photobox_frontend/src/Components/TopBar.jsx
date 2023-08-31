@@ -95,7 +95,7 @@ export default function TopBar({ user }) {
                             <Typography variant='b1'>{user.name}</Typography>
                             <Avatar
                                 alt='User avatar'
-                                src='https://imageio.forbes.com/specials-images/imageserve/6499ae7d51794529225d4176/2022-Toronto-International-Film-Festival---In-Conversation-With----Taylor-Swift/960x0.jpg?format=jpg&width=960'
+                                src={`https://avatars.dicebear.com/api/pixel-art/${user.name}.svg`}
                             />
                         </Box>
                     </Toolbar>
