@@ -17,11 +17,9 @@ const SearchBar = styled('div')(() => ({
     borderRadius: '2%',
     width: '100%',
 }));
-
-export default function TopBar({ user }) {
+export default function TopBar({ user, setFilterWord }) {
     function filterImages(target) {
-        console.log("asd");
-        console.log(target.value);
+        setFilterWord(target.value);
     }
     let isLoggedIn = user.name !== "Please log in...";
     return (
