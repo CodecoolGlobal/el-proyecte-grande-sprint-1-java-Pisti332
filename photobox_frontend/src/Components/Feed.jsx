@@ -4,17 +4,11 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Loading from './Loading/Loading';
-import {
-    Box,
-    IconButton,
-    useMediaQuery,
-    useTheme,
-} from '@mui/material';
+import { Box, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { Comment } from '@mui/icons-material';
 
-const Feed = ({ showComments }) => {
+const Feed = ({ showComments, imagesData, setImagesData }) => {
     const [loading, setLoading] = useState(true);
-    const [imagesData, setImagesData] = useState(null);
 
     useEffect(() => {
         async function fetchImages() {
@@ -32,7 +26,7 @@ const Feed = ({ showComments }) => {
         return () => {
             ignore = true;
         };
-    }, []);
+    }, [setImagesData]);
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
 

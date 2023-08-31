@@ -37,6 +37,8 @@ export default function Sidebar({
     user,
     isUploadDisabled,
     setIsUploadDisabled,
+    setImagesData,
+    imagesData,
 }) {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
@@ -67,7 +69,7 @@ export default function Sidebar({
         const response = await request.json();
         localStorage.setItem(
             'userToken',
-            JSON.stringify({ token: response.token })
+            JSON.stringify({ token: response.token }),
         );
         setIsLoginOpen(false);
         setIsRegister(false);
@@ -157,7 +159,9 @@ export default function Sidebar({
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${JSON.parse(localStorage.getItem('userToken')).token}`
+                    Authorization: `Bearer ${
+                        JSON.parse(localStorage.getItem('userToken')).token
+                    }`,
                 },
                 body: JSON.stringify({
                     imageName: encodeURI(name),
@@ -166,7 +170,14 @@ export default function Sidebar({
                     format: format,
                 }),
             });
-            
+            setImagesData([
+                ...imagesData,
+                {
+                    imageName: name,
+                    userName: user.name,
+                    imageData: base64Split,
+                },
+            ]);
         } catch (e) {
             console.error(e);
         }

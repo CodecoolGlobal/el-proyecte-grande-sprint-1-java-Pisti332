@@ -12,6 +12,7 @@ function App() {
     const [imageName, setImageName] = useState(null);
     const [isUploadDisabled, setIsUploadDisabled] = useState(true);
     const [user, setUser] = useState({ name: 'Please log in...' });
+    const [imagesData, setImagesData] = useState(null);
 
     const showComments = (event) => {
         setIsFeed(false);
@@ -44,8 +45,14 @@ function App() {
                             setUser={setUser}
                             isUploadDisabled={isUploadDisabled}
                             setIsUploadDisabled={setIsUploadDisabled}
+                            setImagesData={setImagesData}
+                            imagesData={imagesData}
                         />
-                        <Feed showComments={showComments} />
+                        <Feed
+                            showComments={showComments}
+                            imagesData={imagesData}
+                            setImagesData={setImagesData}
+                        />
                     </Stack>
                 </>
             ) : (
