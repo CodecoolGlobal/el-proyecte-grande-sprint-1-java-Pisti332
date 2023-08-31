@@ -1,6 +1,7 @@
 package com.codecool.photobox_backend.service;
 
 import com.codecool.photobox_backend.controller.dtos.image.ImageDTO;
+import com.codecool.photobox_backend.controller.dtos.image.ImageForListDTO;
 import com.codecool.photobox_backend.controller.dtos.image.ImageWithIdDTO;
 import com.codecool.photobox_backend.controller.dtos.image.ImagesDTO;
 import com.codecool.photobox_backend.model.Image;
@@ -43,14 +44,20 @@ public class ImageService {
 
     public ImagesDTO getImagesWithLimit(int limit) {
         List<Image> images = imageRepository.getImagesWithLimit(limit);
-        HashMap<String, String> imagesMap = new HashMap<>();
+        List<ImageForListDTO> imagesList = new ArrayList<>();
         if (images.size() > 0) {
             for (int i = 0; i < limit && i < images.size(); i++) {
+                Optional<User> user = userRepository.findById(images.get(i).getUser().getId());
                 String base64 = imageReaderToBase64.convert(this.folderPath + "/" + images.get(i).getName());
-                imagesMap.put(images.get(i).getName(), base64);
+                if (user.isPresent()) {
+                    imagesList.add(new ImageForListDTO(images.get(i).getName(), base64, user.get().getName()));
+                }
+                else {
+                    imagesList.add(new ImageForListDTO(images.get(i).getName(), base64, "unknown user"));
+                }
             }
         }
-        return new ImagesDTO(imagesMap);
+        return new ImagesDTO(imagesList);
     }
 
     public void uploadImage(ImageDTO imageDTO, Long userId) throws IOException {
