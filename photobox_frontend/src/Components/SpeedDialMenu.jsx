@@ -27,13 +27,11 @@ export default function SpeedDialMenu({
             const file = event.target.files[0];
             const name = event.target.files[0].name;
             const base64Image = await toBase64(file);
-            console.log(base64Image);
             const base64Split = base64Image.split(',')[1];
             const format = base64Image.substring(
                 base64Image.indexOf('/') + 1,
                 base64Image.indexOf(';'),
             );
-            console.log(`Bearer ${JSON.parse(localStorage.getItem('userToken')).token}`);
             fetch(`/api/images/${user.id}`, {
                 method: 'POST',
                 headers: {

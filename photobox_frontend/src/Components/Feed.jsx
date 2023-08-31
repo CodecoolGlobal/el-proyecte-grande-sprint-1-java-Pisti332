@@ -12,9 +12,10 @@ import {
 } from '@mui/material';
 import { Comment } from '@mui/icons-material';
 
-const Feed = ({ showComments }) => {
+const Feed = ({ showComments, filterWord }) => {
     const [loading, setLoading] = useState(true);
     const [imagesData, setImagesData] = useState(null);
+    const [images, setImages] = useState(null);
 
     useEffect(() => {
         async function fetchImages() {
@@ -33,6 +34,12 @@ const Feed = ({ showComments }) => {
             ignore = true;
         };
     }, []);
+    function filterImages(imagesData, filterWord) {
+        return imagesData && imagesData.filter(imageData => imageData.data.imageName.toLowerCase().includes(filterWord));
+    }
+    useEffect(() => {
+        setImages(filterImages(imagesData, filterWord));
+    }, [filterWord, imagesData]);
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -62,24 +69,24 @@ const Feed = ({ showComments }) => {
     return (
         <Box maxWidth={matchDownMd ? '93vw' : '80vw'}>
             <ImageList cols={matchDownMd ? 1 : 2} gap={30}>
-                {imagesData.map((item) => (
-                    <ImageListItem key={item.name}>
+                {images && images.map((item) => (
+                    <ImageListItem key={item.data.imageName}>
                         <img
-                            src={`data:image/jpeg;base64,${item.data}`}
-                            alt={item.name}
+                            src={`data:image/jpeg;base64,${item.data.imageData}`}
+                            alt={item.data.imageName}
                             loading='lazy'
                         />
                         <ImageListItemBar
-                            title={decodeURI(item.name)}
-                            subtitle={decodeURI(item.name)}
+                            title={decodeURI(item.data.imageName)}
+                            subtitle={decodeURI(item.data.userName)}
                             actionIcon={
                                 <IconButton
-                                    id={item.name}
+                                    id={item.data.imageName}
                                     onClick={showComments}
                                     sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                                    aria-label={`info about ${item.name}`}
+                                    aria-label={`info about ${item.data.imageName}`}
                                 >
-                                    <Comment id={item.name} />
+                                    <Comment id={item.data.imageName} />
                                 </IconButton>
                             }
                         />

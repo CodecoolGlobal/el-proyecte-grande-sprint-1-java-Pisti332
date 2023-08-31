@@ -17,8 +17,11 @@ const SearchBar = styled('div')(() => ({
     borderRadius: '2%',
     width: '100%',
 }));
-
-export default function TopBar({ user }) {
+export default function TopBar({ user, setFilterWord }) {
+    function filterImages(target) {
+        setFilterWord(target.value);
+    }
+    let isLoggedIn = user.name !== "Please log in...";
     return (
         <>
             <AppBar position='sticky'>
@@ -65,29 +68,44 @@ export default function TopBar({ user }) {
                         >
                             <Search fontSize='large' />
                             <SearchBar>
-                                <InputBase placeholder='Search...' />
+                                <InputBase placeholder='Search...' onChange={(event) => filterImages(event.target)}/>
                             </SearchBar>
                         </Box>
-                        <LinkedCamera
-                            fontSize='large'
+                        <Typography variant='b1'
+                            component='a'
+                            href="/"
                             sx={{
-                                display: {
-                                    xs: 'block',
-                                    sm: 'block',
-                                    md: 'none',
-                                },
-                            }}
-                        />
+                                color: 'black',
+                                textDecoration: 'none',
+                            }}>
+                            <LinkedCamera
+                                fontSize='large'
+                                sx={{
+                                    display: {
+                                        xs: 'block',
+                                        sm: 'block',
+                                        md: 'none',
+                                    },
+                                }}
+                            />
+                        </Typography>
+
                         <Box
                             display='flex'
                             gap={2}
                             sx={{ alignItems: 'center' }}
                         >
                             <Typography variant='b1'>{user.name}</Typography>
-                            <Avatar
-                                alt='User avatar'
-                                src='https://imageio.forbes.com/specials-images/imageserve/6499ae7d51794529225d4176/2022-Toronto-International-Film-Festival---In-Conversation-With----Taylor-Swift/960x0.jpg?format=jpg&width=960'
-                            />
+                            {isLoggedIn ?
+                                <Avatar
+                                    alt='User avatar'
+                                    src={`https://avatars.dicebear.com/api/pixel-art/${user.name}.svg`}
+                                /> :
+                                <Avatar
+                                    alt='User avatar'
+                                    src={`https://avatars.dicebear.com/api/identification/.svg`}
+                                />
+                            }
                         </Box>
                     </Toolbar>
                 </Container>

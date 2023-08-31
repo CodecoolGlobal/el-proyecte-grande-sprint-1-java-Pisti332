@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public record ImageWithIdDTO(
         UUID imageId,
-        String data
+        String data,
+        String username
 ) {
 }
