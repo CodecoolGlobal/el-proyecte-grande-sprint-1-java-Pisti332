@@ -12,6 +12,8 @@ export default function SpeedDialMenu({
     handleLogOut,
     isLogoutDisabled,
     user,
+    setImagesData,
+    imagesData,
 }) {
     const inputRef = useRef();
 
@@ -36,7 +38,9 @@ export default function SpeedDialMenu({
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${JSON.parse(localStorage.getItem('userToken')).token}`
+                    Authorization: `Bearer ${
+                        JSON.parse(localStorage.getItem('userToken')).token
+                    }`,
                 },
                 body: JSON.stringify({
                     imageName: encodeURI(name),
@@ -45,6 +49,14 @@ export default function SpeedDialMenu({
                     format: format,
                 }),
             });
+            setImagesData([
+                ...imagesData,
+                {
+                    imageName: name,
+                    userName: user.name,
+                    imageData: base64Split,
+                },
+            ]);
         } catch (e) {
             console.error(e);
         }

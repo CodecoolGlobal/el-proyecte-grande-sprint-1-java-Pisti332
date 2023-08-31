@@ -445,6 +445,8 @@ export default function Sidebar({
                 handleLogOut={handleLogOut}
                 isLogoutDisabled={isLogoutDisabled}
                 user={user}
+                setImagesData={setImagesData}
+                imagesData={imagesData}
             />
         </>
     );
