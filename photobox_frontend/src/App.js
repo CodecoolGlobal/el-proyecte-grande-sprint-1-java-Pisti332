@@ -13,6 +13,7 @@ function App() {
     const [isUploadDisabled, setIsUploadDisabled] = useState(true);
     const [user, setUser] = useState({ name: 'Please log in...' });
     const [imagesData, setImagesData] = useState(null);
+    const [filterWord, setFilterWord] = useState('');
 
     const showComments = (event) => {
         setIsFeed(false);
@@ -33,7 +34,7 @@ function App() {
         <ThemeProvider theme={theme}>
             {isFeed ? (
                 <>
-                    <TopBar user={user} />
+                    <TopBar user={user} setFilterWord={setFilterWord}/>
                     <Stack
                         direction='row'
                         spacing={2}
@@ -52,6 +53,7 @@ function App() {
                             showComments={showComments}
                             imagesData={imagesData}
                             setImagesData={setImagesData}
+                            filterWord={filterWord}
                         />
                     </Stack>
                 </>
