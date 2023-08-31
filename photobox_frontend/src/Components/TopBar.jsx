@@ -68,16 +68,25 @@ export default function TopBar({ user }) {
                                 <InputBase placeholder='Search...' />
                             </SearchBar>
                         </Box>
-                        <LinkedCamera
-                            fontSize='large'
+                        <Typography variant='b1'
+                            component='a'
+                            href="/"
                             sx={{
-                                display: {
-                                    xs: 'block',
-                                    sm: 'block',
-                                    md: 'none',
-                                },
-                            }}
-                        />
+                                color: 'black',
+                                textDecoration: 'none',
+                            }}>
+                            <LinkedCamera
+                                fontSize='large'
+                                sx={{
+                                    display: {
+                                        xs: 'block',
+                                        sm: 'block',
+                                        md: 'none',
+                                    },
+                                }}
+                            />
+                        </Typography>
+
                         <Box
                             display='flex'
                             gap={2}
