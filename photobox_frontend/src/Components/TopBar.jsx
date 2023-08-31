@@ -19,6 +19,10 @@ const SearchBar = styled('div')(() => ({
 }));
 
 export default function TopBar({ user }) {
+    function filterImages(target) {
+        console.log("asd");
+        console.log(target.value);
+    }
     let isLoggedIn = user.name !== "Please log in...";
     return (
         <>
@@ -66,7 +70,7 @@ export default function TopBar({ user }) {
                         >
                             <Search fontSize='large' />
                             <SearchBar>
-                                <InputBase placeholder='Search...' />
+                                <InputBase placeholder='Search...' onChange={(event) => filterImages(event.target)}/>
                             </SearchBar>
                         </Box>
                         <Typography variant='b1'
