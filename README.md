@@ -106,7 +106,8 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-- Docker Desktop, or equivalent (Docker compose is needed).
+- Maven to compile and create a .jar file.
+- Docker Desktop, or equivalent (Docker compose is needed), to run the containers.
 
 ### Installation
 
@@ -114,12 +115,17 @@ To get a local copy up and running follow these simple example steps.
     ```sh
     git clone https://github.com/CodecoolGlobal/el-proyecte-grande-sprint-1-java-Pisti332.git
     ```
-2. [OPTIONAL] Modify the usernames and passwords in the docker-compose.yml file if you want something different  than the default settings.
-3. Run Docker-compose in the backend folder
+2. Complie a .jar file with maven, by running the following command in the photobox_backend folder
+```sh
+    ./photobox_backend/mvn package
+```
+3. [OPTIONAL] Modify the usernames and passwords in the docker-compose.yml file if you want something different  than the default settings.
+
+4. Run Docker-compose in the backend folder
     ```sh
     ./photobox_backend/docker compose up
     ```
-4. Open the local port 8080 with your browser, when the compose is ready: http://localhost:8080/
+5. Open the local port 8080 with your browser, when the compose is ready: http://localhost:8080/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
