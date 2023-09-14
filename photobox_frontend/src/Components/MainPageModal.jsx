@@ -12,8 +12,10 @@ export default function MainPageModal({
     setIsLogoutDisabled,
     setIsUploadDisabled,
     setIsAlertOpen,
+    isRegister,
+    setIsRegister
 }) {
-    const [isRegister, setIsRegister] = useState(false);
+    
 
     const StyledModal = styled(Modal)({
         display: 'flex',

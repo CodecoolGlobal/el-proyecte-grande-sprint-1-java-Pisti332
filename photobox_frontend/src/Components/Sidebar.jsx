@@ -1,9 +1,9 @@
-import { Alert, Snackbar } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import './sidebar.css';
 import SpeedDialMenu from './SpeedDialMenu';
 import DesktopViewMenu from './DesktopViewMenu';
 import MainPageModal from './MainPageModal';
+import MainPageSnackBars from './MainPageSnackBars';
 
 export default function Sidebar({
     setUser,
@@ -17,6 +17,7 @@ export default function Sidebar({
     const [isAlertOpen, setIsAlertOpen] = useState(false);
     const [isSuccesboxOpen, setIsSuccesboxOpen] = useState(false);
     const [isLogoutDisabled, setIsLogoutDisabled] = useState(true);
+    const [isRegister, setIsRegister] = useState(false);
 
     useEffect(() => {
         if (localStorage.getItem('user')) {
@@ -25,15 +26,6 @@ export default function Sidebar({
             setIsUploadDisabled(false);
         }
     }, [setIsUploadDisabled, setUser]);
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setIsAlertOpen(false);
-        setIsSuccesboxOpen(false);
-    };
 
     function handleLogOut() {
         setUser({ name: 'Please log in...' });
@@ -70,33 +62,15 @@ export default function Sidebar({
                 setIsLogoutDisabled={setIsLogoutDisabled}
                 setIsUploadDisabled={setIsUploadDisabled}
                 setIsAlertOpen={setIsAlertOpen}
+                isRegister={isRegister}
+                setIsRegister={setIsRegister}
             />
-            <Snackbar
-                open={isAlertOpen}
-                autoHideDuration={6000}
-                onClose={handleClose}
-            >
-                <Alert
-                    onClose={handleClose}
-                    severity='error'
-                    sx={{ width: '100%' }}
-                >
-                    Invalid username or password!
-                </Alert>
-            </Snackbar>
-            <Snackbar
-                open={isSuccesboxOpen}
-                autoHideDuration={6000}
-                onClose={handleClose}
-            >
-                <Alert
-                    onClose={handleClose}
-                    severity='success'
-                    sx={{ width: '100%' }}
-                >
-                    Successful action.
-                </Alert>
-            </Snackbar>
+            <MainPageSnackBars
+                setIsAlertOpen={setIsAlertOpen}
+                setIsSuccesboxOpen={setIsSuccesboxOpen}
+                isAlertOpen={isAlertOpen}
+                isSuccesboxOpen={isSuccesboxOpen}
+            />
         </>
     );
 }
