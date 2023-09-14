@@ -1,13 +1,16 @@
 package com.codecool.photobox_backend.service;
 
+import com.codecool.photobox_backend.controller.dtos.auth.AuthenticationResponse;
 import com.codecool.photobox_backend.controller.dtos.user.UserDTO;
 import com.codecool.photobox_backend.model.User;
 import com.codecool.photobox_backend.repository.UserRepository;
+import com.codecool.photobox_backend.security.JWTService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.AuthenticationManager;
 
 import java.util.Optional;
 
@@ -23,12 +26,15 @@ class UserServiceTest {
 
     @Mock
     UserRepository userRepository;
+    @Mock
+    JWTService jwtService;
+    @Mock
+    AuthenticationManager authenticationManager;
 
     @BeforeEach
     void setUp() {
-        //underTest = new UserService(userRepository);
+        underTest = new UserService(userRepository, jwtService, authenticationManager);
         testUser1 = new User(1L, "Jack", "Jack", "Jack");
-        testUser2 = new User(2L, "Bob", "Bob", "Bob");
     }
 
     @Test
@@ -39,25 +45,4 @@ class UserServiceTest {
 
         assertEquals(expected, actual);
     }
-
-//    @Test
-//    void registerUser() {
-//        User expected = testUser2;
-//        User actual = underTest.registerUser(new UserDTO("Bob", "Bob", "Bob"));
-//
-//        verify(userRepository, times(1)).save(any(User.class));
-//        assertEquals(expected.getPassword(), actual.getPassword());
-//        assertEquals(expected.getName(), actual.getName());
-//        assertEquals(expected.getEmail(), actual.getEmail());
-//    }
-
-//    @Test
-//    void signInUser() {
-//        User expected = testUser1;
-//        when(userRepository.findByName("Jack")).thenReturn(testUser1);
-//
-//        User actual = underTest.signInUser(new UserDTO("Jack", "Jack", "Jack"));
-//
-//        assertEquals(expected, actual);
-//    }
 }
