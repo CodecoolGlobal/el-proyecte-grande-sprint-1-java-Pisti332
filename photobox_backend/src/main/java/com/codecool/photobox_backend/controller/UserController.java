@@ -30,14 +30,4 @@ public class UserController {
     public ResponseEntity<AuthenticationResponse> signin(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(userService.signInUser(request));
     }
-
-    @PutMapping("user/{id}")
-    public void updateUserById(@PathVariable String id, @RequestBody UserDTO userDTO) {
-        //todo
-    }
-
-    @DeleteMapping("user/{id}")
-    public void deleteUserById(@PathVariable String id) {
-        //todo
-    }
 }
