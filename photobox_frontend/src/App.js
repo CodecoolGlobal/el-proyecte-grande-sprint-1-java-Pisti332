@@ -32,9 +32,9 @@ function App() {
 
     return (
         <ThemeProvider theme={theme}>
+            <TopBar user={user} setFilterWord={setFilterWord} />
             {isFeed ? (
                 <>
-                    <TopBar user={user} setFilterWord={setFilterWord}/>
                     <Stack
                         direction='row'
                         spacing={2}
@@ -59,7 +59,6 @@ function App() {
                 </>
             ) : (
                 <>
-                    <TopBar user={user} />
                     <Stack direction='row' spacing={2} justifyContent='center'>
                         <Sidebar
                             user={user}
