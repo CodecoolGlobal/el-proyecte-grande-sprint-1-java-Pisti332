@@ -73,7 +73,7 @@ export default function SpeedDialMenu({
     return (
         <>
             <SpeedDial
-                ariaLabel='SpeedDial basic example'
+                ariaLabel='SpeedDialMenu'
                 sx={{
                     position: 'fixed',
                     bottom: 20,

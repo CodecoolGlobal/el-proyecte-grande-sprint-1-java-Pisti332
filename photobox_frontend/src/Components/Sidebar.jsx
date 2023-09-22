@@ -1,30 +1,15 @@
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import LoginIcon from '@mui/icons-material/Login';
-import DoDisturbIcon from '@mui/icons-material/DoDisturb';
-import HowToRegIcon from '@mui/icons-material/HowToReg';
 import {
-    Alert,
     Box,
-    Button,
-    ButtonGroup,
-    FormControl,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
     Modal,
-    Paper,
-    Snackbar,
-    TextField,
-    Typography,
     styled,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import './sidebar.css';
 import SpeedDialMenu from './SpeedDialMenu';
-import { LinkedCamera, Login, Upload } from '@mui/icons-material';
+import MainPageSnackBars from './MainPageSnackBars';
+import DesktopViewMenu from './DesktopViewMenu';
+import LoginModal from './LoginModal';
+import RegisterModal from './RegisterModal';
 
 const StyledModal = styled(Modal)({
     display: 'flex',
@@ -54,81 +39,6 @@ export default function Sidebar({
         }
     }, [setIsUploadDisabled, setUser]);
 
-    async function handleRegisterUser(e) {
-        e.preventDefault();
-        const form = e.target;
-        const formData = new FormData(form);
-        const formJson = Object.fromEntries(formData.entries());
-        const request = await fetch('/api/auth/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formJson),
-        });
-        const response = await request.json();
-        localStorage.setItem(
-            'userToken',
-            JSON.stringify({ token: response.token }),
-        );
-        setIsLoginOpen(false);
-        setIsRegister(false);
-        setUser({ name: response.username, id: response.userId });
-        localStorage.setItem(
-            'user',
-            JSON.stringify({ name: response.username, id: response.userId }),
-        );
-        setIsSuccesboxOpen(true);
-        setIsLogoutDisabled(false);
-        setIsUploadDisabled(false);
-    }
-
-    async function handleLoginUser(e) {
-        e.preventDefault();
-        const form = e.target;
-        const formData = new FormData(form);
-        const formJson = Object.fromEntries(formData.entries());
-        try {
-            const request = await fetch('/api/auth/signin', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formJson),
-            });
-            const response = await request.json();
-            setUser({ name: response.username, id: response.userId });
-            localStorage.setItem(
-                'user',
-                JSON.stringify({
-                    name: response.username,
-                    id: response.userId,
-                }),
-            );
-            setIsLoginOpen(false);
-            setIsRegister(false);
-            localStorage.setItem(
-                'userToken',
-                JSON.stringify({ token: response.token }),
-            );
-            setIsSuccesboxOpen(true);
-            setIsLogoutDisabled(false);
-            setIsUploadDisabled(false);
-        } catch (error) {
-            setIsAlertOpen(true);
-            console.error(error);
-        }
-    }
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setIsAlertOpen(false);
-        setIsSuccesboxOpen(false);
-    };
-
     function handleLogOut() {
         setUser({ name: 'Please log in...' });
         setIsSuccesboxOpen(true);
@@ -137,123 +47,25 @@ export default function Sidebar({
         localStorage.clear();
     }
 
-    const toBase64 = (file) =>
-        new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = reject;
-        });
-
-    const sendImage = async (event) => {
-        try {
-            const file = event.target.files[0];
-            const name = event.target.files[0].name;
-            const base64Image = await toBase64(file);
-            const base64Split = base64Image.split(',')[1];
-            const format = base64Image.substring(
-                base64Image.indexOf('/') + 1,
-                base64Image.indexOf(';'),
-            );
-            fetch(`/api/images/${user.id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${
-                        JSON.parse(localStorage.getItem('userToken')).token
-                    }`,
-                },
-                body: JSON.stringify({
-                    imageName: encodeURI(name),
-                    userName: user.name,
-                    imageData: base64Split,
-                    format: format,
-                }),
-            });
-            setImagesData([
-                ...imagesData,
-                {
-                    imageName: name,
-                    userName: user.name,
-                    imageData: base64Split,
-                },
-            ]);
-        } catch (e) {
-            console.error(e);
-        }
-    };
-
     return (
         <>
-            <Box
-                flex={1}
-                p={2}
-                sx={{
-                    display: {
-                        xs: 'none',
-                        sm: 'none',
-                        md: 'none',
-                        lg: 'block',
-                        xl: 'block',
-                    },
-                }}
-            >
-                <Box position='fixed'>
-                    <Paper elevation={3}>
-                        <List>
-                            <ListItem disablePadding>
-                                <ListItemButton
-                                    component='button'
-                                    onClick={() => setIsLoginOpen(true)}
-                                >
-                                    <ListItemIcon>
-                                        <Login />
-                                    </ListItemIcon>
-                                    <ListItemText primary='Login' />
-                                </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                                <ListItemButton
-                                    component='label'
-                                    disabled={isUploadDisabled}
-                                >
-                                    <ListItemIcon>
-                                        <Upload />
-                                    </ListItemIcon>
-                                    <ListItemText primary='Upload image' />
-                                    <input
-                                        id='fileInput'
-                                        type='file'
-                                        hidden
-                                        accept='.png,.jpeg,.jpg'
-                                        onChange={(event) => sendImage(event)}
-                                    />
-                                </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                                <ListItemButton component='a' href='#home'>
-                                    <ListItemIcon>
-                                        <AlternateEmailIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary='Contact' />
-                                </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                                <ListItemButton
-                                    component='button'
-                                    onClick={handleLogOut}
-                                    disabled={isLogoutDisabled}
-                                >
-                                    <ListItemIcon>
-                                        <MeetingRoomIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary='Logout' />
-                                </ListItemButton>
-                            </ListItem>
-                        </List>
-                    </Paper>
-                </Box>
-            </Box>
+            <DesktopViewMenu
+                setIsLoginOpen={setIsLoginOpen}
+                isUploadDisabled={isUploadDisabled}
+                handleLogOut={handleLogOut}
+                isLogoutDisabled={isLogoutDisabled}
+                user={user}
+                setImagesData={setImagesData}
+                imagesData={imagesData}
+            />
+            <SpeedDialMenu
+                setIsLoginOpen={setIsLoginOpen}
+                handleLogOut={handleLogOut}
+                isLogoutDisabled={isLogoutDisabled}
+                user={user}
+                setImagesData={setImagesData}
+                imagesData={imagesData}
+            />
             <StyledModal
                 open={isLoginOpen}
                 onClose={() => setIsLoginOpen(false)}
@@ -272,181 +84,32 @@ export default function Sidebar({
                     sx={{ alignItems: 'center' }}
                 >
                     {!isRegister ? (
-                        <>
-                            <LinkedCamera fontSize='large' />
-                            <form
-                                onSubmit={handleLoginUser}
-                                id='login-user-form'
-                            >
-                                <Typography
-                                    variant='h5'
-                                    textAlign='center'
-                                    mt='10px'
-                                    mb='10px'
-                                >
-                                    Login
-                                </Typography>
-                                <FormControl variant='standard'>
-                                    <TextField
-                                        id='login-username'
-                                        label='Username'
-                                        variant='outlined'
-                                        name='username'
-                                        required
-                                    />
-                                </FormControl>
-                                <FormControl margin='normal'>
-                                    <TextField
-                                        id='login-password'
-                                        label='Password'
-                                        variant='outlined'
-                                        type='password'
-                                        autoComplete='true'
-                                        name='password'
-                                        required
-                                    />
-                                </FormControl>
-                                <ButtonGroup
-                                    variant='contained'
-                                    aria-label='outlined primary button group'
-                                    sx={{ marginTop: '10px' }}
-                                >
-                                    <Button
-                                        type='submit'
-                                        startIcon={<LoginIcon />}
-                                    >
-                                        Login
-                                    </Button>
-                                    <Button
-                                        endIcon={<DoDisturbIcon />}
-                                        onClick={() => setIsLoginOpen(false)}
-                                    >
-                                        Cancel
-                                    </Button>
-                                </ButtonGroup>
-                                <Button
-                                    color='secondary'
-                                    startIcon={<HowToRegIcon />}
-                                    variant='outlined'
-                                    sx={{ marginTop: '30px' }}
-                                    onClick={() => setIsRegister(true)}
-                                >
-                                    Register
-                                </Button>
-                            </form>
-                        </>
+                        <LoginModal
+                            setUser={setUser}
+                            setIsLoginOpen={setIsLoginOpen}
+                            setIsRegister={setIsRegister}
+                            setIsSuccesboxOpen={setIsSuccesboxOpen}
+                            setIsLogoutDisabled={setIsLoginOpen}
+                            setIsUploadDisabled={setIsUploadDisabled}
+                            setIsAlertOpen={setIsAlertOpen}
+                        />
                     ) : (
-                        <>
-                            <LinkedCamera fontSize='large' />
-                            <Typography
-                                variant='h5'
-                                textAlign='center'
-                                mt='10px'
-                                mb='10px'
-                            >
-                                Register
-                            </Typography>
-                            <form
-                                id='register-user-form'
-                                method='POST'
-                                onSubmit={handleRegisterUser}
-                            >
-                                <FormControl variant='standard' margin='normal'>
-                                    <TextField
-                                        id='register-username'
-                                        label='Username'
-                                        variant='outlined'
-                                        name='username'
-                                        required
-                                    />
-                                </FormControl>
-                                <FormControl variant='standard' margin='normal'>
-                                    <TextField
-                                        id='register-email'
-                                        label='Email'
-                                        variant='outlined'
-                                        name='email'
-                                        required
-                                    />
-                                </FormControl>
-                                <FormControl margin='normal'>
-                                    <TextField
-                                        id='register-password'
-                                        label='Password'
-                                        variant='outlined'
-                                        type='password'
-                                        name='password'
-                                        autoComplete='true'
-                                        required
-                                    />
-                                </FormControl>
-                                <ButtonGroup
-                                    variant='contained'
-                                    aria-label='outlined primary button group'
-                                    sx={{ marginTop: '10px' }}
-                                >
-                                    <Button
-                                        type='submit'
-                                        startIcon={<LoginIcon />}
-                                    >
-                                        Register
-                                    </Button>
-                                    <Button
-                                        endIcon={<DoDisturbIcon />}
-                                        onClick={() => {
-                                            setIsLoginOpen(false);
-                                            setIsRegister(false);
-                                        }}
-                                    >
-                                        Cancel
-                                    </Button>
-                                </ButtonGroup>
-                            </form>
-                            <Button
-                                startIcon={<HowToRegIcon />}
-                                variant='outlined'
-                                sx={{ marginTop: '30px' }}
-                                onClick={() => setIsRegister(false)}
-                            >
-                                Login
-                            </Button>
-                        </>
+                        <RegisterModal
+                            setIsLoginOpen={setIsLoginOpen}
+                            setIsRegister={setIsRegister}
+                            setUser={setUser}
+                            setIsSuccesboxOpen={setIsSuccesboxOpen}
+                            setIsLogoutDisabled={setIsLogoutDisabled}
+                            setIsUploadDisabled={setIsUploadDisabled}
+                        />
                     )}
                 </Box>
             </StyledModal>
-            <Snackbar
-                open={isAlertOpen}
-                autoHideDuration={6000}
-                onClose={handleClose}
-            >
-                <Alert
-                    onClose={handleClose}
-                    severity='error'
-                    sx={{ width: '100%' }}
-                >
-                    Invalid username or password!
-                </Alert>
-            </Snackbar>
-            <Snackbar
-                open={isSuccesboxOpen}
-                autoHideDuration={6000}
-                onClose={handleClose}
-            >
-                <Alert
-                    onClose={handleClose}
-                    severity='success'
-                    sx={{ width: '100%' }}
-                >
-                    Successful action.
-                </Alert>
-            </Snackbar>
-            <SpeedDialMenu
-                setIsLoginOpen={setIsLoginOpen}
-                handleLogOut={handleLogOut}
-                isLogoutDisabled={isLogoutDisabled}
-                user={user}
-                setImagesData={setImagesData}
-                imagesData={imagesData}
+            <MainPageSnackBars
+                setIsAlertOpen={setIsAlertOpen}
+                setIsSuccesboxOpen={setIsSuccesboxOpen}
+                isAlertOpen={isAlertOpen}
+                isSuccesboxOpen={isSuccesboxOpen}
             />
         </>
     );
